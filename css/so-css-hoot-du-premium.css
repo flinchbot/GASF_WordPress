@@ -86,7 +86,7 @@ PURPOSE:
   CSS custom properties.
 
 PALETTE GROUPS:
-  --of-blue/navy/lightblue/teal  — cool Bavarian tones
+  --of-blue/navy/teal            — cool Bavarian tones
   --of-cream-0 through -4        — warm ivory/wheat scale
   --of-brown-0 through -3        — dark warm text tones
   --of-gold / gold-soft / warm / border — accent highlights
@@ -115,8 +115,6 @@ SHADOW SCALE (--shadow-*):
 
   --of-blue: #0077b6;             /* Bavarian blue — primary brand cool tone */
   --of-navy: #002b5c;             /* Deep navy — used for banner text */
-  --of-link-blue: #0078D4;        /* Image widget base border color */
-  --of-lightblue: #6fcbf2;        /* Border-image accent stripe */
   --of-teal: #0F6E56;             /* Palette teal-green (Midnight Hopfen) — image borders, MEC accents */
 
   /* ── Palette: Warm / Cream / Wheat ── */
