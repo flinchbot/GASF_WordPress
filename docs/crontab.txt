@@ -1,3 +1,6 @@
 # GASF — trigger WordPress cron reliably every 10 minutes
 */20 * * * * cd /home4/germanta/public_html && /usr/local/bin/php /usr/local/bin/wp cron event run --due-now --quiet 2>/dev/null
 
+# GASF — nightly GitHub backup at 2 AM
+0 2 * * * bash /home4/germanta/gasf-repo/backup.sh >> /home4/germanta/gasf-repo/backup.log 2>&1
+

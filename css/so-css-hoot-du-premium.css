@@ -190,17 +190,17 @@ SHADOW SCALE (--shadow-*):
   /* ── GASF component system ─────────────────────────────────────
      Powers Sections 24–32 + all shortcode components.
      COLOR REFRESH: edit ONLY the values in this block.        ── */
-  --gasf-gold:             #e8b04b;   /* Primary accent — links, pills, CTAs     */
-  --gasf-gold-dark:        #c9a84c;   /* Gold hover / pressed state              */
-  --gasf-dark-bg:          #1a1a1a;   /* Dark section + card backgrounds         */
-  --gasf-dark-bg-2:        #2a2a2a;   /* Lighter dark surface                    */
-  --gasf-hero-text:        #faf6eb;   /* Text on dark / hero backgrounds         */
-  --gasf-hero-navy:        #0d3d73;   /* Hero gradient start                     */
-  --gasf-hero-navy-mid:    #163968;   /* Hero gradient midpoint                  */
-  --gasf-hero-green:       #0d4d2e;   /* Hero gradient end                       */
+  --gasf-gold:             #EF9F27;   /* Primary accent — links, pills, CTAs     */
+  --gasf-gold-dark:        #BA7517;   /* Gold hover / pressed state              */
+  --gasf-dark-bg:          #1a1a2e;   /* Dark section + card backgrounds         */
+  --gasf-dark-bg-2:        #242445;   /* Lighter dark surface                    */
+  --gasf-hero-text:        #f5f5f0;   /* Text on dark / hero backgrounds         */
+  --gasf-hero-navy:        #1a1a2e;   /* Hero gradient start                     */
+  --gasf-hero-navy-mid:    #0F6E56;   /* Hero gradient midpoint                  */
+  --gasf-hero-green:       #085041;   /* Hero gradient end                       */
   --gasf-hero-gradient:    linear-gradient(135deg, var(--gasf-hero-navy) 0%, var(--gasf-hero-navy-mid) 55%, var(--gasf-hero-green) 100%);
-  --gasf-cf-green:         #1a4a2e;   /* Cultural Foundation green               */
-  --gasf-cf-dark:          #0f2d1c;   /* Cultural Foundation dark                */
+  --gasf-cf-green:         #0F6E56;   /* Cultural Foundation green               */
+  --gasf-cf-dark:          #085041;   /* Cultural Foundation dark                */
   --gasf-bayern-blue:      #1e5fad;   /* FC Bayern / club blue                   */
   --gasf-bayern-blue-dark: #1a3d7c;   /* Bayern blue dark variant                */
   --gasf-bundesliga-red:   #dc052d;   /* Bundesliga / Bayern red                 */
@@ -390,7 +390,7 @@ body.page-id-2638 .okt-card a {
 
 body.page-id-2638 .okt-card.high-contrast {
   background: linear-gradient(135deg, #fefcf8, var(--of-cream-4)) !important;
-  color: #2a2a2a !important;
+  color: #242445 !important;
   padding: 2rem !important;
   border-radius: 8px !important;
 }
@@ -1176,7 +1176,7 @@ NOTE: page-id-2638 scoped overrides in Section 3 use
 
 .okt-card.high-contrast {
   background: linear-gradient(135deg, #fefcf8, var(--of-cream-4)) !important;
-  color: #2a2a2a !important;
+  color: #242445 !important;
   padding: 2rem;
   border-radius: 8px;
 }
@@ -2595,7 +2595,7 @@ span.venue-tab-row,
      Fresh Green     #5BA968  (Accents, highlights)
      Warm Gold       #E8B04B  (Pretzel / beer accent)
      Cream           #FAF6EB  (Light backgrounds)
-     Ink             #1a1a1a  (Body text)
+     Ink             #1a1a2e  (Body text)
    ========================================================== */
 
 /* ── 24a. HERO — Split layout (image left, content right) ── */
@@ -2606,7 +2606,7 @@ span.venue-tab-row,
   margin: -30px -30px 40px -30px;
   overflow: hidden;
   border-radius: 0 0 12px 12px;
-  background: #0d3d73;
+  background: #1a1a2e;
   position: relative;
 }
 .gasf-mai-hero__image {
@@ -2701,7 +2701,7 @@ span.venue-tab-row,
   align-items: center;
   gap: 8px;
   background: rgba(255, 255, 255, 0.95);
-  color: #0d3d73;
+  color: #1a1a2e;
   padding: 10px 18px;
   border-radius: 40px;
   font-family: var(--font-body);
@@ -2711,7 +2711,7 @@ span.venue-tab-row,
 }
 .gasf-mai-hero__pill--admission {
   background: rgba(232, 176, 75, 0.95);
-  color: #1a1a1a;
+  color: #1a1a2e;
 }
 
 @media (max-width: 880px) {
@@ -2873,7 +2873,7 @@ span.venue-tab-row,
   font-family: var(--font-display);
   font-size: 22px;
   line-height: 1.2;
-  color: #0d3d73;
+  color: #1a1a2e;
   margin: 0;
 }
 .gasf-mai-glance__sub {
@@ -2890,7 +2890,7 @@ span.venue-tab-row,
 .gasf-mai-section-heading {
   font-family: var(--font-display);
   font-size: clamp(30px, 4vw, 40px);
-  color: #0d3d73;
+  color: #1a1a2e;
   text-align: center;
   margin: 50px 0 8px 0;
   letter-spacing: 1px;
@@ -2941,7 +2941,7 @@ span.venue-tab-row,
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.4;
-  color: #1a1a1a;
+  color: #1a1a2e;
 }
 .gasf-mai-schedule__item--feature {
   background: linear-gradient(90deg, rgba(232, 176, 75, 0.12), transparent);
@@ -2973,7 +2973,7 @@ span.venue-tab-row,
 .gasf-mai-food-card__name {
   font-family: var(--font-display);
   font-size: 20px;
-  color: #0d3d73;
+  color: #1a1a2e;
   margin: 0;
 }
 .gasf-mai-food-note {
@@ -3010,7 +3010,7 @@ span.venue-tab-row,
 .gasf-mai-beer__style-tag {
   display: inline-block;
   background: var(--gasf-gold);
-  color: #1a1a1a;
+  color: #1a1a2e;
   font-family: var(--font-body);
   font-size: 11px;
   font-weight: 700;
@@ -3023,7 +3023,7 @@ span.venue-tab-row,
 .gasf-mai-beer__name {
   font-family: var(--font-display);
   font-size: 34px;
-  color: #0d3d73;
+  color: #1a1a2e;
   margin: 0 0 4px 0;
   line-height: 1;
 }
@@ -3038,7 +3038,7 @@ span.venue-tab-row,
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.6;
-  color: #1a1a1a;
+  color: #1a1a2e;
   margin: 0;
 }
 .gasf-mai-beer__other {
@@ -3085,7 +3085,7 @@ span.venue-tab-row,
 .gasf-mai-performer__name {
   font-family: var(--font-display);
   font-size: 22px;
-  color: #0d3d73;
+  color: #1a1a2e;
   margin: 0 0 12px 0;
   line-height: 1.15;
 }
@@ -3137,12 +3137,12 @@ span.venue-tab-row,
   font-family: var(--font-body);
   font-size: 14px;
   font-weight: 600;
-  color: #0d3d73;
+  color: #1a1a2e;
   margin: 0;
   line-height: 1.3;
 }
 .gasf-mai-vendor__name a {
-  color: #0d3d73;
+  color: #1a1a2e;
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s;
@@ -3169,7 +3169,7 @@ span.venue-tab-row,
   color: #3a3a3a;
 }
 .gasf-mai-parking strong {
-  color: #0d3d73;
+  color: #1a1a2e;
   display: block;
   margin-bottom: 6px;
   font-size: 16px;
@@ -3221,7 +3221,7 @@ span.venue-tab-row,
 
 /* ── Parking/notice block — link contrast fix ── */
 .gasf-mai-parking a {
-  color: #0d3d73;
+  color: #1a1a2e;
   text-decoration: underline;
 }
 .gasf-mai-parking a:hover {
@@ -3357,7 +3357,7 @@ span.venue-tab-row,
 .gasf-mem-hero__cta {
   display: inline-block;
   background: var(--gasf-gold);
-  color: #1a1a1a !important;
+  color: #1a1a2e !important;
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 16px;
@@ -3465,7 +3465,7 @@ span.venue-tab-row,
 .gasf-mem-price-card__cta {
   display: inline-block;
   background: var(--gasf-gold);
-  color: #1a1a1a !important;
+  color: #1a1a2e !important;
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 14px;
@@ -3494,7 +3494,7 @@ span.venue-tab-row,
 .gasf-mem-closing {
   text-align: center;
   padding: 64px 40px;
-  background: #0d3d73;
+  background: #1a1a2e;
   margin: 0 -30px;
 }
 .gasf-mem-closing__text {
@@ -3579,7 +3579,7 @@ span.venue-tab-row,
   font-family: var(--font-display);
   font-size: 22px;
   color: #fff;
-  background: linear-gradient(135deg, #0d3d73, #1e5fad);
+  background: linear-gradient(135deg, #1a1a2e, #1e5fad);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -3601,7 +3601,7 @@ span.venue-tab-row,
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.75;
-  color: #2a2a2a;
+  color: #242445;
   margin: 0 0 16px 0;
 }
 .gasf-hist-milestone__content p:last-child { margin-bottom: 0; }
@@ -3615,7 +3615,7 @@ span.venue-tab-row,
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.65;
-  color: #1a1a1a;
+  color: #1a1a2e;
   font-style: italic;
   margin-bottom: 20px;
 }
@@ -3773,7 +3773,7 @@ span.venue-tab-row,
   font-size: 20px;
   line-height: 1.1;
 }
-.gasf-about-cta--primary .gasf-about-cta__label { color: #1a1a1a; }
+.gasf-about-cta--primary .gasf-about-cta__label { color: #1a1a2e; }
 .gasf-about-cta--secondary .gasf-about-cta__label { color: #fff; }
 .gasf-about-cta__sub {
   font-family: var(--font-body);
@@ -3853,7 +3853,7 @@ span.venue-tab-row,
   align-items: center;
   gap: 8px;
   background: rgba(255,255,255,0.95);
-  color: #0d3d73;
+  color: #1a1a2e;
   padding: 10px 18px;
   border-radius: 40px;
   font-family: var(--font-body);
@@ -3916,7 +3916,7 @@ span.venue-tab-row,
   width: 48px;
   height: 48px;
   background: var(--gasf-gold);
-  color: #1a1a1a;
+  color: #1a1a2e;
   font-family: var(--font-display);
   font-size: 22px;
   border-radius: 50%;
@@ -4052,12 +4052,12 @@ span.venue-tab-row,
 .gasf-contact-card__value {
   font-family: var(--font-body);
   font-size: 16px;
-  color: #1a1a1a;
+  color: #1a1a2e;
   margin: 0;
   line-height: 1.5;
 }
 .gasf-contact-card__value a {
-  color: #0d3d73;
+  color: #1a1a2e;
   text-decoration: none;
   font-weight: 600;
 }
@@ -4192,7 +4192,7 @@ span.venue-tab-row,
   margin: 0 auto 14px auto;
   border: 3px solid #1e5fad;
   box-shadow: 0 4px 16px rgba(13,61,115,0.3);
-  background: #0d3d73;
+  background: #1a1a2e;
 }
 .gasf-bod-card__photo img {
   width: 100%;
@@ -4238,7 +4238,7 @@ span.venue-tab-row,
      Warm Gold     var(--gasf-gold-dark)
      Light Gold    #e8d5a3
      Parchment     #f8f4e8
-     Charcoal      #2a2a2a
+     Charcoal      #242445
    ========================================================== */
 
 /* ── Hero ── */
@@ -4339,7 +4339,7 @@ span.venue-tab-row,
   font-family: var(--font-body);
   font-size: 18px;
   line-height: 1.75;
-  color: #2a2a2a;
+  color: #242445;
   font-style: italic;
   margin: 0;
 }
@@ -4592,7 +4592,7 @@ span.venue-tab-row,
   font-family: var(--font-body);
   font-size: 15px;
   line-height: 1.65;
-  color: #2a2a2a;
+  color: #242445;
   margin: 0 0 16px 0;
 }
 .gasf-cf-sponsor__cta {
