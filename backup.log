@@ -1,0 +1,30 @@
+=== GASF WordPress Backup — 2026-05-31 02:00:02 ===
+Exporting snippets...
+  Snippet #1: Make upload filenames lowercase
+  Snippet #2: Disable admin bar
+  Snippet #3: Allow smilies
+  Snippet #4: Current year
+  Snippet #5: Update Yoast/MEC missing Schema
+  Snippet #6: Yoast SEO access for Claude
+  Snippet #7: Footer CSS Override
+  Snippet #8: Forces WordPress/MEC to use our PHP template
+  Snippet #9: MEC Single Event PHP
+  Snippet #10: Single MEC Events
+  Snippet #11: Block REST API user enumeration
+  Snippet #12: Welton Brewing Status Blurb
+  Snippet #13: Bundesliga Table Shortcode
+  Snippet #14: Bayern Scorers Shortcode
+  Snippet #15: Bundesliga Top Scorers Shortcode
+  Snippet #16: MEC Upcoming Dates Shortcode
+  Snippet #17: MEC Importer Cron Fix
+  Snippet #18: MEC Facebook Recurring Event Expander
+Total: 18 snippets
+Exporting CSS...
+  so-css-hoot-du-premium.css
+Exporting theme files...
+  single-mec-events.php
+Exporting pages...
+Total: 41 pages
+Exporting crontab...
+  crontab.txt
+Committing to GitHub...
