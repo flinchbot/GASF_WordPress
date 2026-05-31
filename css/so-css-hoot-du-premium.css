@@ -1,0 +1,4675 @@
+/* ==========================================================
+?? Site-wide CSS — germantampabay.com
+─────────────────────────────────────────────────────────────
+ORIGIN & SCOPE:
+  This stylesheet began as a dedicated CSS file for the
+  Oktoberfest page (page-id-2638) and has since grown into
+  the global site-wide stylesheet. Many classes defined here
+  — such as .okt-schedule-block, .german-dinner-block,
+  .membership-callout, and the MEC event overrides — are
+  intentionally reused across multiple event pages including
+  Bock Fest, Maifest, and others.
+
+  Rules scoped with body.page-id-XXXX apply ONLY to that
+  specific WordPress page ID. Rules without a page-id scope
+  apply globally to the entire site.
+
+CHANGE LOG:
+  - Original: Oktoberfest-only (page-id-2638)
+  - Expanded: Global scope, shared classes across event pages
+  - Cleanup (Mar 2026):
+      • Removed duplicate body.page-id-2638 p a rule
+      • Removed three unused @keyframes animations
+      • Moved Restaurant page rule into Section 21
+  - Restructure (Mar 2026):
+      • Inserted Section 10: MEC single event page redesign
+      • All MEC CSS now contiguous in Sections 9–11
+      • Former Sections 10–22 renumbered to 11–23
+
+KNOWN INTENTIONAL CHOICES (do not "fix" these):
+  • body.page-id-2638 .so-panel uses --of-panel-highlight
+    (#123456, dark navy) — deliberate design choice.
+  • .col-md-2 and .col-sm-2 margin/padding overrides in
+    Section 7 are intentionally global.
+  • .block::before shimmer is driven by CSS transition,
+    not @keyframes.
+
+SECTIONS:
+   0) Theme tokens (:root variables)
+   1) Page background and base scope (page-id-2638)
+   2) Typography — headings, paragraphs, links (page-id-2638)
+   3) Gemütlichkeit highlight box
+   4) Schedule table (page-id-2638)
+   5) Details accordion (page-id-2638)
+   6) Feature grid / highlights (page-id-2638)
+   7) SiteOrigin panel overrides
+   8) Image widget border and hover
+   9) Utilities and resets (MEC global)
+  10) MEC single event page — full redesign ← NEW
+  11) MEC list / event item polish (global)
+  12) Oktoberfest banner and header cluster
+  13) Cards cluster (.okt-card)
+  14) Schedule block themes (.okt-schedule-block)
+  15) Centered image helper
+  16) Banner block (.okt-banner)
+  17) Logos and galleries
+  18) German dinner block (.german-dinner-block)
+  19) Spacers
+  20) Animations (active keyframes only)
+  21) Per-page overrides — other pages
+      └─ Restaurant page (page-id-11514)
+      └─ Smart Slider 3 (slider ID #6, Oktoberfest)
+      └─ Sidebar / .block component
+      └─ Membership callout
+  22) Venue video wrapper — responsive iframe support
+  23) Hall Rentals page — complete CSS (page-id-330)
+      └─ Tabbed gallery section
+  24) Maifest page — complete CSS (page-id-4887)
+      └─ Hero split layout
+      └─ What Is Maifest? origin block
+      └─ At a Glance cards
+      └─ Schedule
+      └─ Food grid
+      └─ Beer feature (Maibock)
+      └─ Performers
+      └─ Vendor Village
+      └─ Parking notice
+========================================================== */
+
+
+/* ==========================================================
+0) Theme tokens
+─────────────────────────────────────────────────────────────
+PURPOSE:
+  Centralize the entire site palette, typography stack,
+  spacing scale, border radii, and box shadow presets into
+  CSS custom properties.
+
+PALETTE GROUPS:
+  --of-blue/navy/lightblue/teal  — cool Bavarian tones
+  --of-cream-0 through -4        — warm ivory/wheat scale
+  --of-brown-0 through -3        — dark warm text tones
+  --of-gold / gold-soft / warm / border — accent highlights
+  --of-dark-0, -1, -border       — dark schedule variant
+
+TYPOGRAPHY:
+  --font-display  : Germania One  — festive Germanic display
+  --font-body     : Rubik         — readable body copy
+  --font-accent   : Cinzel Decorative — decorative headings
+  --font-ui       : Segoe UI      — clean UI elements
+
+SPACING SCALE (--sp-*):
+  2xs=0.25rem, xs=0.5rem, s=0.75rem, m=1rem,
+  l=1.5rem, xl=2rem
+
+RADIUS SCALE (--radius-*):
+  s=6px, m=10px, l=12px, xl=14px, xxl=16px
+
+SHADOW SCALE (--shadow-*):
+  s=subtle, m=medium, l=large, xl=dramatic
+========================================================== */
+:root {
+  /* ── Palette: Cool / Bavarian tones ── */
+  --of-white: #ffffff;
+  --of-black: #000000;
+
+  --of-blue: #0077b6;             /* Bavarian blue — primary brand cool tone */
+  --of-navy: #002b5c;             /* Deep navy — used for banner text */
+  --of-link-blue: #0078D4;        /* Image widget base border color */
+  --of-lightblue: #6fcbf2;        /* Border-image accent stripe */
+  --of-teal: #339999;             /* Site primary color — used in .block component */
+
+  /* ── Palette: Warm / Cream / Wheat ── */
+  --of-cream-0: #fffaf0;          /* Ivory — used for h2 text */
+  --of-cream-1: #fff8e6;          /* Wheat — schedule block base */
+  --of-cream-2: #fef3dc;          /* Wheat gradient end */
+  --of-cream-3: #f7e7c1;          /* Banner gradient start */
+  --of-cream-4: #fff6d9;          /* HC card and dinner forced background */
+
+  --of-khaki: #f0e68c;            /* h3 text color */
+  --of-tan: #d2b48c;              /* Gemütlichkeit section + feature card borders */
+  --of-burlywood: #deb887;        /* Card and schedule block borders */
+  --of-border: #ccc;              /* Generic light border — details, hr */
+
+  /* ── Palette: Brown / Warm Text ── */
+  --of-brown-0: #2c1d0f;          /* Darkest — Gemütlichkeit body text */
+  --of-brown-1: #4b2e14;          /* Dark — headings inside warm blocks */
+  --of-brown-2: #5a4223;          /* Mid — body text inside warm blocks */
+  --of-brown-3: #80592b;          /* Light — h6 inside warm schedule block */
+
+  /* ── Palette: Gold / Amber / Accent ── */
+  --of-gold: #ffd700;             /* Primary gold — h6, p links, accent highlights */
+  --of-gold-soft: #ffe680;        /* Soft gold — banner hover + dark schedule links */
+  --of-gold-warm: #f7c948;        /* Warm gold — banner base and hover gradient */
+  --of-gold-border: #d89f3f;      /* Border gold — section underlines and borders */
+
+  --of-amber: #ffaa00;            /* Amber — hover accent color (links, cards) */
+  --of-orange: #ff944d;           /* Orange — h5 in warm schedule block */
+  --of-red: #b22222;              /* Festive red — link color, schedule h4 */
+  --of-pink: #ff6b6b;             /* Pink — MEC event title links */
+
+  /* ── Palette: Misc / UI ── */
+  --of-turquoise: #00ced1;        /* Turquoise — MEC date text palette */
+  --of-slate: #3c3b3d;            /* Slate — gallery caption background */
+  --of-ivory-vintage: #f7f3e9;    /* Ivory vintage — gallery caption text */
+
+  --of-panel-highlight: #123456;  /* INTENTIONAL: dark navy for SiteOrigin panels
+                                     on Oktoberfest page. Not a debug artifact. */
+
+  /* ── Dark schedule variant tokens ── */
+  --of-dark-0: #1f2a3a;           /* Dark card background start */
+  --of-dark-1: #0f1622;           /* Dark card background end */
+  --of-dark-border: #4a6a88;      /* Dark card border color */
+
+  /* ── Typography stacks ── */
+  --font-display: "Germania One", "Georgia", serif; /* Festive Germanic display font */
+  --font-body: "Rubik", sans-serif;               /* Readable body copy */
+  --font-accent: 'Cinzel Decorative', cursive;   /* Decorative heading font */
+  --font-ui: 'Segoe UI', sans-serif;             /* Clean UI elements */
+
+  /* ── Spacing scale ── */
+  --sp-2xs: 0.25rem;   /* 4px  — tight nudges */
+  --sp-xs:  0.5rem;    /* 8px  — small gaps */
+  --sp-s:   0.75rem;   /* 12px — compact padding */
+  --sp-m:   1rem;      /* 16px — standard padding */
+  --sp-l:   1.5rem;    /* 24px — section breathing room */
+  --sp-xl:  2rem;      /* 32px — large section padding */
+
+  /* ── Border radius scale ── */
+  --radius-s:   6px;   /* Subtle rounding — details, small elements */
+  --radius-m:   10px;  /* Standard rounding — cards, feature blocks */
+  --radius-l:   12px;  /* Large rounding — dark schedule variant */
+  --radius-xl:  14px;  /* Extra large — banner, okt-card */
+  --radius-xxl: 16px;  /* Maximum — schedule blocks, dinner block */
+
+  /* ── Box shadow scale ── */
+  --shadow-s:  0 2px 6px rgba(0,0,0,0.08);    /* Subtle — feature cards */
+  --shadow-m:  0 4px 12px rgba(0,0,0,0.10);   /* Medium — gem section */
+  --shadow-l:  0 6px 16px rgba(0,0,0,0.10);   /* Large — okt-card, schedules */
+  --shadow-xl: 0 10px 20px rgba(0,0,0,0.30);  /* Dramatic — banner hover */
+  /* ── GASF component system ─────────────────────────────────────
+     Powers Sections 24–32 + all shortcode components.
+     COLOR REFRESH: edit ONLY the values in this block.        ── */
+  --gasf-gold:             #e8b04b;   /* Primary accent — links, pills, CTAs     */
+  --gasf-gold-dark:        #c9a84c;   /* Gold hover / pressed state              */
+  --gasf-dark-bg:          #1a1a1a;   /* Dark section + card backgrounds         */
+  --gasf-dark-bg-2:        #2a2a2a;   /* Lighter dark surface                    */
+  --gasf-hero-text:        #faf6eb;   /* Text on dark / hero backgrounds         */
+  --gasf-hero-navy:        #0d3d73;   /* Hero gradient start                     */
+  --gasf-hero-navy-mid:    #163968;   /* Hero gradient midpoint                  */
+  --gasf-hero-green:       #0d4d2e;   /* Hero gradient end                       */
+  --gasf-hero-gradient:    linear-gradient(135deg, var(--gasf-hero-navy) 0%, var(--gasf-hero-navy-mid) 55%, var(--gasf-hero-green) 100%);
+  --gasf-cf-green:         #1a4a2e;   /* Cultural Foundation green               */
+  --gasf-cf-dark:          #0f2d1c;   /* Cultural Foundation dark                */
+  --gasf-bayern-blue:      #1e5fad;   /* FC Bayern / club blue                   */
+  --gasf-bayern-blue-dark: #1a3d7c;   /* Bayern blue dark variant                */
+  --gasf-bundesliga-red:   #dc052d;   /* Bundesliga / Bayern red                 */
+
+}
+
+
+/* ==========================================================
+1) Page background and base scope
+─────────────────────────────────────────────────────────────
+SCOPE: page-id-2638 (Oktoberfest) only.
+
+PURPOSE:
+  Sets the Oktoberfest page's signature diagonal Bavarian
+  stripe background (white and blue at 45°), and forces a
+  semi-transparent dark overlay on content containers.
+========================================================== */
+body.page-id-2638 {
+  font-family: var(--font-display);
+}
+
+body.page-id-2638 .panel-grid,
+body.page-id-2638 .siteorigin-panels-stretch,
+body.page-id-2638 #main {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--of-white),
+    var(--of-white) 120px,
+    var(--of-blue) 120px,
+    var(--of-blue) 240px
+  );
+}
+
+body.page-id-2638 .site-content,
+body.page-id-2638 .content-area,
+body.page-id-2638 .main-container {
+  background: rgba(0, 0, 0, 0.2) !important;
+}
+
+
+/* ==========================================================
+2) Typography — headings, paragraphs, links
+─────────────────────────────────────────────────────────────
+SCOPE: page-id-2638 (Oktoberfest) only.
+========================================================== */
+body.page-id-2638 h1,
+body.page-id-2638 h2,
+body.page-id-2638 h3,
+body.page-id-2638 h4,
+body.page-id-2638 h5,
+body.page-id-2638 h6 {
+  text-align: center;
+  margin-bottom: 0.5em;
+}
+
+body.page-id-2638 h1,
+body.page-id-2638 h2,
+body.page-id-2638 h3 {
+  font-family: var(--font-display);
+}
+
+body.page-id-2638 h1,
+body.page-id-2638 h1 span {
+  font-size: 36px;
+  color: var(--of-white) !important;
+  text-transform: uppercase;
+  font-family: var(--font-display) !important;
+  font-weight: 700;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.6);
+  margin-bottom: 1em;
+}
+
+body.page-id-2638 h2 {
+  font-size: 28px;
+  color: var(--of-cream-0) !important;
+  font-weight: 600;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+}
+
+body.page-id-2638 h3 {
+  font-size: 24px;
+  color: var(--of-khaki) !important;
+  font-weight: 600;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+  margin-bottom: 0.75em;
+}
+
+body.page-id-2638 h4 {
+  font-size: 20px;
+  color: var(--of-cream-0) !important;
+  font-weight: 500;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+}
+
+body.page-id-2638 h5 {
+  font-size: 18px;
+  color: #f5deb3 !important;
+  font-weight: 500;
+}
+
+body.page-id-2638 h6,
+body.page-id-2638 h6 span {
+  font-size: 16px;
+  color: var(--of-gold) !important;
+  font-style: italic;
+  font-weight: 500;
+}
+
+body.page-id-2638 p {
+  font-size: 16px;
+  text-align: center;
+  font-family: var(--font-body);
+  color: var(--of-white) !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  margin-bottom: 1em;
+}
+
+/* Single canonical definition — duplicate removed Mar 2026 */
+body.page-id-2638 p a {
+  color: var(--of-gold) !important;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+
+/* ==========================================================
+3) Gemütlichkeit highlight box
+─────────────────────────────────────────────────────────────
+SCOPE: page-id-2638 (Oktoberfest) only.
+========================================================== */
+body.page-id-2638 .gem-section {
+  background: rgba(255, 248, 230, 0.95);
+  border: 4px double var(--of-tan);
+  padding: var(--sp-xl);
+  border-radius: var(--radius-xxl);
+  box-shadow: var(--shadow-m);
+  max-width: 900px;
+  margin: var(--sp-xl) auto;
+  color: var(--of-brown-0) !important;
+  font-family: var(--font-body);
+}
+
+body.page-id-2638 .gem-section h2 {
+  font-size: 2.25rem;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  color: var(--of-brown-1) !important;
+  border-bottom: 2px dashed #a4703f;
+  margin-bottom: 1em;
+  padding-bottom: 0.5em;
+}
+
+body.page-id-2638 .gem-section p,
+body.page-id-2638 .gem-section li {
+  color: #3a2b1a !important;
+  text-shadow: none;
+}
+
+body.page-id-2638 .gem-section a {
+  color: #804000 !important;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+body.page-id-2638 .okt-card {
+  background: #fff !important;
+  border: 2px solid #1a3d7c !important;
+  color: #222 !important;
+  box-shadow: var(--shadow-l) !important;
+}
+
+body.page-id-2638 .okt-card h2 {
+  color: #1a3d7c !important;
+  text-shadow: 1px 1px 2px #fff !important;
+}
+
+body.page-id-2638 .okt-card p {
+  color: #222 !important;
+  font-weight: 600 !important;
+}
+
+body.page-id-2638 .okt-card a {
+  color: #b22222 !important;
+  text-decoration: underline !important;
+  font-weight: bold !important;
+}
+
+body.page-id-2638 .okt-card.high-contrast {
+  background: linear-gradient(135deg, #fefcf8, var(--of-cream-4)) !important;
+  color: #2a2a2a !important;
+  padding: 2rem !important;
+  border-radius: 8px !important;
+}
+
+body.page-id-2638 .okt-card h4 {
+  color: var(--of-brown-0) !important;
+}
+
+
+/* ==========================================================
+4) Schedule table
+─────────────────────────────────────────────────────────────
+SCOPE: page-id-2638 (Oktoberfest) only.
+========================================================== */
+body.page-id-2638 .schedule-table-wrapper {
+  overflow-x: auto;
+  max-width: 100%;
+  padding: var(--sp-m);
+  background: rgba(255,255,255,0.05);
+}
+
+body.page-id-2638 table.aligncenter,
+body.page-id-2638 table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  color: var(--of-white);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+body.page-id-2638 td {
+  padding: 0.5em 1em;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+
+/* ==========================================================
+5) Details accordion
+─────────────────────────────────────────────────────────────
+SCOPE: page-id-2638 (Oktoberfest) only.
+========================================================== */
+.page-id-2638 .accordion-friday details,
+.page-id-2638 .accordion-saturday details,
+.page-id-2638 details {
+  margin: 0.5em 0;
+  padding: 0.75em 1em;
+  border-radius: var(--radius-s);
+  font-family: var(--font-body);
+  border: 1px solid var(--of-border);
+  background: rgba(255,255,255,0.85);
+  cursor: pointer;
+  color: #222;
+}
+
+.page-id-2638 details[open] {
+  background-color: #f9f9f9;
+  border-color: #999;
+}
+
+.page-id-2638 summary {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+
+/* ==========================================================
+6) Feature grid / highlights
+─────────────────────────────────────────────────────────────
+SCOPE: page-id-2638 (Oktoberfest) only.
+========================================================== */
+.page-id-2638 .oktoberfest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--sp-m);
+  padding: var(--sp-m) 0;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.page-id-2638 .feature-card {
+  background: rgba(255, 235, 200, 0.3);
+  border: 1px solid var(--of-tan);
+  border-radius: var(--radius-m);
+  padding: var(--sp-m);
+  font-family: var(--font-body);
+  font-size: 14pt;
+  box-shadow: var(--shadow-s);
+  transition: transform 0.2s ease;
+}
+
+.page-id-2638 .feature-card:hover {
+  transform: scale(1.02);
+  background: rgba(255, 235, 200, 0.5);
+}
+
+
+/* ==========================================================
+7) SiteOrigin panel overrides
+─────────────────────────────────────────────────────────────
+SCOPE: Mixed.
+  - body.page-id-2638 .so-panel → Oktoberfest page only
+  - #panel-2251-0-0-1 → Home-old page (page-id-2251) only
+  - .col-md-2, .col-sm-2 → GLOBAL (intentional)
+
+INTENTIONAL: --of-panel-highlight (#123456) is deliberate.
+INTENTIONAL: .col-md-2/.col-sm-2 are globally scoped.
+========================================================== */
+body.page-id-2638 .so-panel {
+  background-color: var(--of-panel-highlight) !important;
+  padding: var(--sp-m);
+  border-radius: var(--radius-s);
+}
+
+#panel-2251-0-0-1,
+.col-md-2,
+.col-sm-2 {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: auto !important;
+  line-height: 1 !important;
+  vertical-align: top !important;
+}
+
+
+/* ==========================================================
+8) Image widget border and hover
+─────────────────────────────────────────────────────────────
+SCOPE: Global (all .so-widget-image elements).
+
+PURPOSE:
+  Decorative diagonal-stripe border using border-image.
+  Hover scales image and adds drop shadow.
+========================================================== */
+.so-widget-image {
+  border: 6px solid transparent;
+  border-image: linear-gradient(
+    45deg,
+    var(--of-white) 25%,
+    var(--of-teal)  25%,
+    var(--of-teal)  50%,
+    var(--of-white) 50%,
+    var(--of-white) 75%,
+    var(--of-teal)  75%
+  ) 1;
+  border-image-slice: 1;
+}
+
+.so-widget-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+}
+
+
+/* ==========================================================
+9) Utilities and resets — MEC global overrides
+─────────────────────────────────────────────────────────────
+SCOPE: Global (applies site-wide to MEC elements).
+
+PURPOSE:
+  Targeted resets for MEC plugin elements that apply
+  everywhere events are displayed. Includes MEC single
+  event page image/description styles from former MEC
+  plugin custom CSS field (merged here Mar 2026).
+
+RULES:
+  .textwidget hr        — Minimal visual weight dividers
+  .mec-wrap etc.        — Transparent MEC containers
+  .mec-dropdown-search  — Hidden (not used on this site)
+  a.mec-booking-button  — Hidden (site uses Square)
+  .mec-event-sharing    — Collapses when empty
+  .single-mec-events    — Single event page base styles
+========================================================== */
+
+/* Divider lines inside text widgets */
+.textwidget.custom-html-widget hr {
+  margin: 0.2em 0 !important;
+  border: 0;
+  border-top: 1px solid var(--of-border);
+}
+
+/* MEC wrapper elements — transparent backgrounds */
+.mec-wrap,
+.mec-event-list,
+.mec-event {
+  background-color: transparent !important;
+}
+
+/* MEC search dropdown — not used */
+.mec-dropdown-search { display: none !important; }
+
+/* MEC booking button — site uses Square for ticketing */
+a.mec-booking-button { display: none !important; }
+
+/* MEC sharing block — collapses when empty */
+.mec-event-sharing:empty {
+  display: none !important;
+  height: 0 !important;
+}
+
+/* ── MEC single event page — responsive images ──────────────
+   Prevents oversized portrait images on individual event
+   pages. object-fit: contain scales without cropping.
+───────────────────────────────────────────────────────── */
+.single-mec-events img {
+  max-width: 100%;
+  max-height: 500px;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 1em auto;
+  object-fit: contain;
+}
+
+/* ── MEC single event page — global background and text ─────
+   Jet black background with white text for bold contrast.
+───────────────────────────────────────────────────────── */
+body.single-mec-events {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* ── MEC single event — description text ───────────────────
+   Forces white text on all description child elements.
+───────────────────────────────────────────────────────── */
+.single-mec-events .mec-single-event-description,
+.single-mec-events .mec-single-event-description * {
+  color: #ffffff !important;
+}
+
+/* ── MEC single event — description headings ───────────────
+   Goldenrod headings with teal underline.
+───────────────────────────────────────────────────────── */
+.mec-single-event .mec-single-event-description h2,
+.mec-single-event .mec-single-event-description h3 {
+  color: #ffc107;
+  border-bottom: 2px solid var(--of-teal);
+  padding-bottom: 0.3em;
+  margin-top: 1.5em;
+}
+
+/* ── MEC single event — booking/RSVP buttons ───────────────
+   Note: .mec-booking-button is hidden globally above.
+   These styles retained in case booking is re-enabled.
+───────────────────────────────────────────────────────── */
+.mec-wrap .mec-booking-button,
+.mec-wrap .mec-booking-button:hover {
+  background-color: #1e90ff;
+  color: #ffffff;
+  border: none;
+  font-weight: bold;
+  padding: 0.75em 1.5em;
+  border-radius: var(--radius-s);
+  transition: background 0.3s ease;
+}
+.mec-wrap .mec-booking-button:hover {
+  background-color: #87cefa;
+  color: #000000;
+}
+
+/* ==========================================================
+10) MEC single event page — full redesign
+─────────────────────────────────────────────────────────────
+SCOPE: #gafs-event-page — custom single-mec-events.php template.
+       All classes prefixed .gafs- to avoid any conflict with
+       MEC's own CSS. MEC's template is bypassed entirely.
+
+INSTALL: Upload single-mec-events.php to:
+  /wp-content/themes/hoot-du-premium/
+
+LAYOUT:
+  - Full-width dark page (inherits body.single-mec-events black bg)
+  - .gafs-event-container: max 960px centered, padded
+  - .gafs-back-link: subtle turquoise breadcrumb at top
+  - .gafs-event-title: large pink Germania One heading
+  - .gafs-hero-row: two-column flex — meta left, image right
+  - .gafs-event-meta: date, time, location blocks + cal buttons
+  - .gafs-event-image: mid-sized hero image, right column
+  - .gafs-event-description: description card below
+  - .gafs-bottom-nav: back link at bottom
+
+COLOR PALETTE (matches Section 11 event list):
+  Title        → --of-pink (#ff6b6b)
+  Labels       → --of-turquoise (#00ced1)
+  Values       → #ffffff
+  Accents      → --of-teal (#339999)
+  Card bg      → rgba(255,255,255,0.04)
+  Border       → rgba(0,206,209,0.2)
+
+ALSO IN THIS SECTION:
+  - body.single-mec-events full-width fix
+  - Hides MEC's original content on single pages IF the
+    custom template is NOT found (fallback protection)
+========================================================== */
+
+/* ── Full width + layout fix for Hoot Du theme ── */
+body.single-mec-events .content-area,
+body.single-mec-events #main,
+body.single-mec-events .site-content,
+body.single-mec-events .main-container {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 0 !important;
+}
+
+/* ── Page wrapper ── */
+#gafs-event-page {
+  background: #000;
+  min-height: 60vh;
+  padding: 2rem 0 4rem;
+  font-family: var(--font-body);
+}
+
+/* ── Content container ── */
+.gafs-event-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ── Back link ── */
+.gafs-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--of-turquoise) !important;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none !important;
+  margin-bottom: 1.75rem;
+  opacity: 0.75;
+  transition: opacity 0.2s ease;
+}
+
+.gafs-back-link:hover {
+  opacity: 1;
+  color: var(--of-turquoise) !important;
+}
+
+.gafs-back-arrow {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+/* ── Event title ── */
+.gafs-event-title {
+  font-family: var(--font-display) !important;
+  font-size: 2.6rem !important;
+  font-weight: 700 !important;
+  color: var(--of-pink) !important;
+  line-height: 1.15 !important;
+  margin: 0 0 2rem !important;
+  text-shadow: none !important;
+  text-align: left !important;
+}
+
+@media (max-width: 640px) {
+  .gafs-event-title {
+    font-size: 1.9rem !important;
+  }
+}
+
+/* ── Hero row: two-column flex ── */
+.gafs-hero-row {
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 680px) {
+  .gafs-hero-row {
+    flex-direction: column-reverse; /* image above on mobile */
+    gap: 1.5rem;
+  }
+}
+
+/* ── Left column: meta blocks ── */
+.gafs-event-meta {
+  flex: 0 0 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+@media (max-width: 680px) {
+  .gafs-event-meta {
+    flex: none;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
+
+/* Individual meta block (date, time, location) */
+.gafs-meta-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  border-left: 3px solid var(--of-turquoise);
+  padding-left: 0.875rem;
+}
+
+@media (max-width: 680px) {
+  .gafs-meta-block {
+    flex: 1;
+    min-width: 140px;
+  }
+}
+
+.gafs-meta-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--of-turquoise);
+  font-family: var(--font-body);
+  line-height: 1;
+}
+
+.gafs-meta-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  font-family: var(--font-body);
+  line-height: 1.4;
+}
+
+.gafs-meta-value small {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.55);
+  display: block;
+  margin-top: 0.1rem;
+}
+
+/* ── Calendar buttons ── */
+.gafs-cal-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 680px) {
+  .gafs-cal-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+}
+
+.gafs-cal-btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  text-align: center;
+  transition: background 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.gafs-cal-btn--google {
+  background: var(--of-turquoise);
+  color: #000000 !important;
+}
+.gafs-cal-btn--google:hover {
+  background: var(--of-teal);
+  color: #ffffff !important;
+}
+
+.gafs-cal-btn--ical {
+  background: transparent;
+  color: var(--of-turquoise) !important;
+  border: 1px solid var(--of-turquoise);
+}
+.gafs-cal-btn--ical:hover {
+  background: var(--of-turquoise);
+  color: #000000 !important;
+}
+
+/* ── Right column: hero image ── */
+.gafs-event-image {
+  flex: 1;
+  min-width: 0;
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  border: 1px solid rgba(0,206,209,0.15);
+  max-height: 360px;
+}
+
+.gafs-event-image img {
+  width: 100%;
+  height: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  margin: 0 !important;
+}
+
+/* ── Description card ── */
+.gafs-event-description {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(0,206,209,0.15);
+  border-radius: var(--radius-l);
+  padding: 1.75rem 2rem;
+  margin-bottom: 2rem;
+  font-family: var(--font-body);
+}
+
+.gafs-event-description,
+.gafs-event-description p,
+.gafs-event-description li,
+.gafs-event-description span {
+  color: #e0d8c8 !important;
+  font-size: 1rem !important;
+  line-height: 1.8 !important;
+  text-shadow: none !important;
+  text-align: left !important;
+}
+
+.gafs-event-description p {
+  margin-bottom: 0.875em !important;
+}
+
+.gafs-event-description p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.gafs-event-description h2,
+.gafs-event-description h3 {
+  color: var(--of-pink) !important;
+  font-family: var(--font-display) !important;
+  margin-top: 1.25em !important;
+  text-align: left !important;
+}
+
+.gafs-event-description a {
+  color: var(--of-turquoise) !important;
+  text-decoration: underline !important;
+}
+
+.gafs-event-description a:hover {
+  color: var(--of-teal) !important;
+}
+
+/* ── Bottom nav ── */
+.gafs-bottom-nav {
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+/* ── Fallback: hide MEC's own output if our template didn't load ──
+   This is belt-and-suspenders — if the PHP file is missing,
+   MEC renders its own template. These rules minimise the damage.
+───────────────────────────────────────────────────────────────── */
+body.single-mec-events .mec-wrap .mec-single-event-bar,
+body.single-mec-events .mec-wrap .mec-events-meta-group-countdown,
+body.single-mec-events .mec-wrap .clock {
+  display: none !important;
+}
+
+
+
+/* ==========================================================
+11) MEC list / event item polish
+─────────────────────────────────────────────────────────────
+SCOPE: Global (applies site-wide to MEC event list output).
+
+PURPOSE:
+  Fine-tunes MEC event list items across the site.
+
+  Event title links: --of-pink at rest, --of-amber on hover.
+  Date text: --of-turquoise for .event-d, .event-f, .event-da
+  Date block: scaled to 80% via transform.
+  Location: hidden globally (always the same venue).
+========================================================== */
+
+/* Event title link — pink at rest, amber on hover */
+.mec-event-article .mec-event-title a,
+a.mec-color-hover {
+  color: var(--of-pink) !important;
+  font-size: 1em !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition: color 0.3s ease;
+}
+.mec-event-article .mec-event-title a:hover,
+a.mec-color-hover:hover {
+  color: var(--of-amber) !important;
+}
+
+/* Event card container — stripped of MEC defaults */
+.mec-event-article {
+  font-size: 0.9em !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-bottom: none !important;
+  position: relative;
+  z-index: 2;
+}
+
+/* Date number — largest, most prominent */
+.event-d {
+  color: var(--of-turquoise) !important;
+  font-size: 1.6em;
+  font-weight: bold;
+}
+
+/* Month name — medium weight */
+.event-f {
+  color: var(--of-turquoise) !important;
+  font-size: 1.1em;
+  font-style: italic;
+}
+
+/* Day name (Mon, Tue etc.) */
+.event-da {
+  color: var(--of-turquoise) !important;
+  font-size: 1em;
+  letter-spacing: 0.5px;
+}
+
+/* Date block scaled to 80% */
+.mec-event-date {
+  transform: scale(0.8);
+  transform-origin: top left;
+  margin-top: -0.3em;
+}
+
+/* Location — redundant, hidden globally */
+.mec-event-loc-place { display: none !important; }
+
+/* Event list item spacing */
+.mec-event-list .mec-event {
+  margin-bottom: 0.5em !important;
+  padding-bottom: 0 !important;
+}
+.mec-event-list .col-md-6,
+.mec-event-list .col-md-2 {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Inline time display beneath date block */
+.event-left .event-time-inline {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1em;
+  margin-top: 0.2em;
+  font-size: 0.95em;
+  font-weight: 500;
+  color: var(--of-turquoise);
+  font-family: var(--font-body);
+}
+
+/* Homepage MEC calendar container */
+body.home .mec-skin-list .mec-events {
+  background-color: rgba(255,255,255,0.05) !important;
+  border-radius: 6px !important;
+  padding: 6px !important;
+}
+body.home .mec-skin-list .mec-events:hover {
+  background-color: rgba(255,255,255,0.1) !important;
+}
+body.home .mec-skin-list .mec-events a {
+  color: #00CED1 !important;
+  text-decoration: underline !important;
+}
+body.home .mec-skin-list .mec-event {
+  margin-bottom: 20px !important;
+  border-bottom: 1px solid #444 !important;
+  padding-bottom: 15px !important;
+}
+
+
+/* ==========================================================
+12) Oktoberfest banner and header cluster
+─────────────────────────────────────────────────────────────
+SCOPE: Global class names, designed for Oktoberfest context.
+
+ANIMATIONS IN USE (defined in Section 20):
+  beerBounce / iconWiggle / beatPulse
+========================================================== */
+
+.oktoberfest-wrapper {
+  padding: 20px;
+  text-align: center;
+  border-bottom: 5px solid var(--of-gold-border);
+  font-family: var(--font-accent);
+  margin-top: 1.5em;
+}
+
+.oktoberfest-banner {
+  display: inline-block;
+  font-size: 2.8em;
+  font-weight: 800;
+  color: var(--of-navy);
+  background: linear-gradient(45deg, var(--of-cream-3), var(--of-gold-warm));
+  padding: 0.5em 1.2em;
+  border-radius: var(--radius-xl);
+  text-decoration: none;
+  font-family: var(--font-ui);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  animation: beerBounce 3s infinite;
+}
+.oktoberfest-banner:hover {
+  background: linear-gradient(45deg, var(--of-gold-soft), var(--of-gold-warm));
+  transform: rotate(-1deg) scale(1.06);
+  box-shadow: var(--shadow-xl);
+  color: #7a3e00;
+}
+
+.oktoberfest-banner .fa-beer,
+.oktoberfest-banner .fa-music {
+  margin: 0 8px;
+  color: #a85411;
+}
+
+.oktoberfest-banner i.fas.fa-beer {
+  color: var(--of-gold-warm);
+  margin-right: 0.4em;
+  animation: iconWiggle 2s infinite;
+}
+
+.oktoberfest-banner i.fas.fa-music {
+  color: var(--of-blue);
+  margin-left: 0.4em;
+  animation: beatPulse 2s infinite;
+}
+
+body.page-id-2638 .banner-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  padding: var(--sp-m) 0;
+}
+
+
+/* ==========================================================
+13) Cards cluster (.okt-card)
+─────────────────────────────────────────────────────────────
+SCOPE: Global — used on Oktoberfest and other event pages.
+
+NOTE: page-id-2638 scoped overrides in Section 3 use
+!important to beat theme specificity on the Okt page.
+========================================================== */
+
+.okt-card {
+  background: #fff;
+  border: 2px solid #1a3d7c;
+  color: #222;
+  box-shadow: var(--shadow-l);
+}
+
+.okt-card h2 {
+  color: #1a3d7c;
+  text-shadow: 1px 1px 2px #fff;
+}
+
+.okt-card p {
+  color: #222;
+  font-weight: 600;
+}
+
+.okt-card a {
+  color: #b22222;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.okt-card.high-contrast {
+  background: linear-gradient(135deg, #fefcf8, var(--of-cream-4)) !important;
+  color: #2a2a2a !important;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.okt-card-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5em;
+  max-width: 900px;
+  margin: 2em auto;
+  padding: 1em;
+}
+
+
+/* ==========================================================
+14) Schedule block themes (.okt-schedule-block)
+─────────────────────────────────────────────────────────────
+SCOPE: Global — used on Oktoberfest and Bock Fest pages.
+
+BASE: warm wheat/cream variant (default)
+.is-dark MODIFIER: optional dark navy variant
+========================================================== */
+
+.okt-schedule-block {
+  background: linear-gradient(135deg, var(--of-cream-1), var(--of-cream-2));
+  border: 3px dashed var(--of-burlywood);
+  border-radius: var(--radius-xxl);
+  padding: var(--sp-xl);
+  max-width: 900px;
+  margin: var(--sp-xl) auto;
+  font-family: var(--font-body);
+  color: var(--of-brown-1);
+  box-shadow: var(--shadow-l);
+  text-align: center;
+}
+.okt-schedule-block h2 {
+  font-size: 1.75rem;
+  color: #228B22;
+  font-family: var(--font-display);
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.6);
+  margin-bottom: 0.5em;
+}
+.okt-schedule-block h4 {
+  font-size: 1.2rem;
+  color: var(--of-red);
+  margin-bottom: 0.75em;
+}
+.okt-schedule-block h5 {
+  font-size: 1.1rem;
+  color: var(--of-orange);
+  font-style: italic;
+  margin-bottom: 0.75em;
+}
+.okt-schedule-block h6 {
+  font-size: 1rem;
+  color: var(--of-brown-3);
+  font-weight: 500;
+  margin-bottom: 0.5em;
+}
+.okt-schedule-block p {
+  font-size: 1rem;
+  color: var(--of-brown-2);
+  font-weight: 500;
+  margin-bottom: 1em;
+}
+.okt-schedule-block a {
+  color: var(--of-red);
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.okt-schedule-block.is-dark {
+  background: linear-gradient(135deg, var(--of-dark-0), var(--of-dark-1));
+  border: 2px solid var(--of-dark-border);
+  border-radius: var(--radius-l);
+  color: #f0f0f0;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+  margin-top: 1em;
+}
+.okt-schedule-block.is-dark h2 {
+  color: var(--of-gold-soft);
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+}
+.okt-schedule-block.is-dark h4 { color: var(--of-gold-warm); }
+.okt-schedule-block.is-dark h5 { color: #eaa221; }
+.okt-schedule-block.is-dark h6 { color: #ccc; }
+.okt-schedule-block.is-dark p  { color: #ddd; }
+.okt-schedule-block.is-dark a  { color: var(--of-gold-soft); }
+
+
+/* ==========================================================
+15) Centered image helper
+─────────────────────────────────────────────────────────────
+SCOPE: Global utility class.
+========================================================== */
+.center-image-widget { text-align: center; }
+.center-image-widget img {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+}
+
+
+/* ==========================================================
+16) Banner block (.okt-banner)
+─────────────────────────────────────────────────────────────
+SCOPE: Global class — passive decorative section divider.
+Distinct from .oktoberfest-banner (Section 12).
+========================================================== */
+.okt-banner {
+  background: linear-gradient(to right, #f7e9c4, var(--of-gold-warm));
+  padding: 40px 20px;
+  text-align: center;
+  font-family: var(--font-accent);
+  color: #4b2e00;
+  border-bottom: 5px solid var(--of-gold-border);
+}
+
+
+/* ==========================================================
+17) Logos and galleries
+─────────────────────────────────────────────────────────────
+SCOPE: Global (.site-logo-mixed-image, .custom-gallery).
+========================================================== */
+.site-logo-mixed-image img.custom-logo {
+  max-width: 150px;
+  height: auto;
+}
+
+.custom-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin: 2em 0;
+}
+.custom-gallery figure {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-m);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.custom-gallery img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+.custom-gallery figure:hover img { transform: scale(1.03); }
+.custom-gallery figcaption {
+  padding: 0.75em;
+  background-color: var(--of-slate);
+  color: var(--of-ivory-vintage);
+  font-style: italic;
+  font-size: 0.95em;
+  text-align: center;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+
+/* ==========================================================
+18) German dinner block (.german-dinner-block)
+─────────────────────────────────────────────────────────────
+SCOPE: Global — generated by [german_dinner_events] shortcode.
+========================================================== */
+.german-dinner-block {
+  background: linear-gradient(135deg, #fffaf0, var(--of-cream-2));
+  border: 3px dashed var(--of-burlywood);
+  border-radius: var(--radius-xxl);
+  padding: var(--sp-xl);
+  max-width: 900px;
+  margin: var(--sp-xl) auto;
+  font-family: var(--font-body);
+  color: #662b2b;
+  box-shadow: var(--shadow-l);
+  text-align: center;
+}
+.german-dinner-block h2 {
+  font-size: 2rem;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  color: var(--of-brown-1);
+  margin-bottom: 1em;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+.german-dinner-block p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 1em;
+  color: var(--of-brown-2);
+}
+.german-dinner-block ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.german-dinner-block li {
+  font-size: 1.1rem;
+  margin-bottom: 1em;
+  font-weight: 500;
+}
+.german-dinner-block a {
+  color: var(--of-red);
+  text-decoration: underline;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+.german-dinner-block a:hover { color: var(--of-amber); }
+
+/* Force cream gradient over theme container backgrounds */
+body .german-dinner-block {
+  background: linear-gradient(135deg, #fefcf8, var(--of-cream-4)) !important;
+}
+
+
+/* ==========================================================
+19) Spacers
+─────────────────────────────────────────────────────────────
+SCOPE: Global utility class.
+========================================================== */
+.section-spacer {
+  height: 2rem;
+  background-color: var(--of-black);
+}
+
+
+/* ==========================================================
+20) Animations — active keyframes only
+─────────────────────────────────────────────────────────────
+SCOPE: Global — referenced by Section 12 (Oktoberfest banner).
+
+ACTIVE:
+  beerBounce  — .oktoberfest-banner
+  iconWiggle  — .oktoberfest-banner i.fas.fa-beer
+  beatPulse   — .oktoberfest-banner i.fas.fa-music
+
+NOTE: .block::before shimmer uses CSS transition, NOT
+@keyframes. It is unrelated to removed animations.
+========================================================== */
+
+@keyframes beerBounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+@keyframes iconWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(-10deg); }
+  75%      { transform: rotate(10deg); }
+}
+
+@keyframes beatPulse {
+  0%, 100% { transform: scale(1);   opacity: 0.7; }
+  50%      { transform: scale(1.2); opacity: 1; }
+}
+
+
+/* ==========================================================
+21) Per-page overrides — other pages
+─────────────────────────────────────────────────────────────
+SCOPE: Various individual page IDs and component contexts.
+
+SUBSECTIONS:
+  21a) Restaurant page (page-id-11514) image sizing
+  21b) Smart Slider 3 — slider ID #6 (Oktoberfest gallery)
+  21c) Sidebar / .block navigation component
+  21d) Membership callout block
+========================================================== */
+
+/* ── 21a) Restaurant page — page-id-11514 ── */
+.page-id-11514 .widget_sow-image img {
+  max-width: 300px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ── 21b) Smart Slider 3 — slider ID #6 ── */
+div#n2-ss-6 {
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  margin: 40px auto;
+  max-width: 1200px;
+  background: linear-gradient(to bottom right, #800000, #000000);
+}
+
+#n2-ss-6 .n2-ss-slide-background {
+  filter: brightness(0.95) contrast(1.1);
+  transition: filter 0.3s ease;
+}
+
+#n2-ss-6 .n2-ss-title {
+  font-family: 'Okt-Headline', sans-serif;
+  font-size: 2.5rem;
+  color: #f5f5dc;
+  text-shadow: 2px 2px 4px #000;
+}
+
+#n2-ss-6 .n2-ss-text {
+  font-family: 'Okt-Body', sans-serif;
+  font-size: 1.2rem;
+  color: #ffffff;
+  line-height: 1.6;
+}
+
+#n2-ss-6 .n2-ss-arrow {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+#n2-ss-6 .n2-ss-arrow:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+#n2-ss-6 .n2-ss-bullet {
+  background-color: #f5f5dc;
+  border: 2px solid #800000;
+}
+#n2-ss-6 .n2-ss-bullet.n2-active {
+  background-color: #800000;
+}
+
+@media (max-width: 768px) {
+  #n2-ss-6 .n2-ss-title { font-size: 1.8rem; }
+  #n2-ss-6 .n2-ss-text  { font-size: 1rem; }
+}
+
+/* ── 21c) Sidebar / .block navigation component ─────────────
+   Teal-themed navigation block. Shimmer effect uses CSS
+   transition on left, NOT @keyframes animation.
+───────────────────────────────────────────────────────── */
+.sidebar {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.block {
+  background: radial-gradient(circle at 30% 20%, #339999, #236c6c);
+  border: 2px solid transparent;
+  border-radius: 16px;
+  padding: 32px 20px;
+  text-align: center;
+  color: #ffffff;
+  font-size: 1.6em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+  box-shadow: 0 8px 16px rgba(30, 144, 255, 0.3);
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.block::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, #87cefa55, transparent);
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+}
+.block:hover::before {
+  left: 100%;
+}
+
+.block:hover {
+  border-color: #87cefa;
+  color: #e6ffff;
+  transform: scale(1.04);
+}
+
+/* ── 21d) Membership callout block ── */
+.membership-callout {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  background: linear-gradient(135deg, var(--of-cream-1), var(--of-cream-2));
+  border: 3px dashed var(--of-burlywood);
+  border-radius: var(--radius-xxl);
+  text-align: center;
+  font-family: var(--font-body);
+  color: var(--of-brown-2);
+  box-shadow: var(--shadow-l);
+}
+
+.membership-callout p {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--of-brown-1);
+  text-shadow: none;
+}
+
+.membership-callout a {
+  color: var(--of-red);
+  font-weight: 700;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.membership-callout a:hover {
+  color: var(--of-amber);
+}
+
+.membership-divider {
+  max-width: 600px;
+  margin: 1.5rem auto;
+  border: 0;
+  border-top: 2px solid var(--of-gold-border);
+}
+
+
+/* ==========================================================
+Bock Fest — Beer Lineup Card Grid (.bock-beer-grid)
+─────────────────────────────────────────────────────────────
+SCOPE: Global class — Bock Fest beer lineup section.
+========================================================== */
+
+.bock-beer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+  max-width: 960px;
+  margin: 1.5rem auto 1rem;
+  padding: 0 0.5rem;
+  text-align: left;
+}
+
+.bock-beer-card {
+  background: linear-gradient(135deg, var(--of-cream-1), var(--of-cream-2));
+  border: 2px solid var(--of-burlywood);
+  border-radius: var(--radius-l);
+  padding: 1.25rem 1rem;
+  box-shadow: var(--shadow-m);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.bock-beer-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-l);
+}
+
+.bock-beer-card__brewery {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--of-brown-3);
+  font-family: var(--font-body);
+  margin: 0;
+}
+
+.bock-beer-card__name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--of-brown-1);
+  font-family: var(--font-display);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.bock-beer-card__style {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-family: var(--font-body);
+  width: fit-content;
+  margin-top: 0.1rem;
+}
+
+.bock-beer-card__style--doppelbock {
+  background: var(--of-gold-warm);
+  color: var(--of-brown-0);
+}
+
+.bock-beer-card__style--maibock {
+  background: #d4edda;
+  color: #1a4d2e;
+}
+
+.bock-beer-card__style--bock {
+  background: var(--of-tan);
+  color: var(--of-brown-0);
+}
+
+.bock-beer-card__desc {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--of-brown-2);
+  font-family: var(--font-body);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Section heading above beer grid */
+.bock-lineup-heading {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--of-cream-0);
+  text-align: center;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+  margin-bottom: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+/* "Also available" note pill */
+.bock-beer-note {
+  font-size: 0.875rem;
+  font-style: italic;
+  font-family: var(--font-body);
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 0;
+  color: var(--of-brown-2) !important;
+  background: rgba(255, 248, 230, 0.92);
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  border: 1px solid var(--of-burlywood);
+}
+
+.bock-beer-note-wrap {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* ==========================================================
+Bock Fest — What Is Bock Fest section (.bock-origin-*)
+─────────────────────────────────────────────────────────────
+SCOPE: Bock Fest page.
+========================================================== */
+
+.bock-origin-section {
+  background: linear-gradient(135deg, #2c1a0e, #1a0f07);
+  border-radius: var(--radius-xxl);
+  padding: var(--sp-xl) var(--sp-l);
+  max-width: 860px;
+  margin: var(--sp-xl) auto;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  text-align: center;
+  font-family: var(--font-body);
+}
+
+.bock-origin-hook {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffe8a0;
+  text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
+  margin: 0 0 1.25rem;
+  line-height: 1.3;
+}
+
+.bock-origin-heritage {
+  font-size: 1rem;
+  color: #e8dcc8;
+  line-height: 1.75;
+  max-width: 680px;
+  margin: 0 auto 1.75rem;
+  text-shadow: none;
+}
+
+.bock-bierstacheln {
+  background: linear-gradient(135deg, #3d1f08, #2a1505);
+  border: 2px solid var(--of-gold-border);
+  border-left: 5px solid var(--of-amber);
+  border-radius: var(--radius-l);
+  padding: var(--sp-l) var(--sp-xl);
+  margin: 0 auto 1.75rem;
+  max-width: 720px;
+  text-align: left;
+  box-shadow: inset 0 0 40px rgba(255,140,0,0.06),
+              0 4px 16px rgba(0,0,0,0.4);
+}
+
+.bock-bierstacheln__header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.bock-bierstacheln__flame {
+  font-size: 1.6rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.bock-bierstacheln__title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffe8a0;
+  text-shadow: 0 0 12px rgba(255,160,0,0.4);
+  margin: 0;
+  line-height: 1.1;
+}
+
+.bock-bierstacheln__subtitle {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--of-gold-border);
+  font-family: var(--font-body);
+  margin: 0.2rem 0 0;
+  display: block;
+}
+
+.bock-bierstacheln__body {
+  font-size: 1rem;
+  color: #ddd0b8;
+  line-height: 1.75;
+  margin: 0;
+  text-shadow: none;
+}
+
+.bock-bierstacheln__body strong {
+  color: var(--of-gold-warm);
+  font-weight: 600;
+}
+
+.bock-origin-tagline {
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--of-tan);
+  margin: 0;
+  text-shadow: none;
+  letter-spacing: 0.02em;
+}
+
+/* ==========================================================
+Bock Fest — Live Music / Rum Syndicate (.bock-band-*)
+─────────────────────────────────────────────────────────────
+SCOPE: Bock Fest page.
+========================================================== */
+
+.bock-band-section {
+  background: linear-gradient(135deg, #2c1a0e, #1a0f07);
+  border-radius: var(--radius-xxl);
+  padding: var(--sp-xl) var(--sp-l);
+  max-width: 860px;
+  margin: var(--sp-xl) auto;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  text-align: center;
+  font-family: var(--font-body);
+}
+
+.bock-band-section__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--of-gold-border);
+  font-family: var(--font-body);
+  margin: 0 0 0.5rem;
+}
+
+.bock-band-section__name {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffe8a0;
+  text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
+  margin: 0 0 0.4rem;
+  line-height: 1.2;
+}
+
+.bock-band-section__tagline {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--of-tan);
+  margin: 0 0 1.5rem;
+  font-family: var(--font-body);
+}
+
+.bock-band-images {
+  display: flex;
+  gap: 1.25rem;
+  justify-content: center;
+  align-items: stretch;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.bock-band-images a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 200px;
+  max-width: 320px;
+  min-height: 200px;
+  height: auto;
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  border: 2px solid var(--of-gold-border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+}
+
+.bock-band-images a:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(255,160,0,0.3);
+  border-color: var(--of-amber);
+}
+
+.bock-band-images img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.bock-band-images a:last-child {
+  background: #1a0f07;
+}
+
+.bock-band-images a:last-child img {
+  object-fit: contain;
+  object-position: center center;
+  padding: 1rem;
+  height: auto;
+  max-height: 400px;
+}
+
+.bock-band-section__desc {
+  font-size: 1rem;
+  color: #e8dcc8;
+  line-height: 1.75;
+  max-width: 680px;
+  margin: 0 auto;
+  text-shadow: none;
+}
+
+.bock-band-section__desc strong {
+  color: var(--of-gold-warm);
+  font-weight: 600;
+}
+
+/* ==========================================================
+Bock Fest — Food section (.bock-food-*)
+─────────────────────────────────────────────────────────────
+SCOPE: Bock Fest page.
+========================================================== */
+
+.bock-food-section {
+  background: linear-gradient(135deg, var(--of-cream-1), var(--of-cream-2));
+  border: 2px dashed var(--of-burlywood);
+  border-radius: var(--radius-xxl);
+  padding: var(--sp-xl) var(--sp-l);
+  max-width: 860px;
+  margin: var(--sp-xl) auto;
+  text-align: center;
+  font-family: var(--font-body);
+  box-shadow: var(--shadow-m);
+}
+
+.bock-food-section__heading {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--of-brown-1);
+  margin: 0 0 0.4rem;
+  text-shadow: none;
+}
+
+.bock-food-section__sub {
+  font-size: 0.9rem;
+  color: var(--of-brown-3);
+  font-style: italic;
+  margin: 0 0 1.75rem;
+  font-family: var(--font-body);
+}
+
+.bock-food-grid {
+  display: flex;
+  gap: 1.25rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.bock-food-card {
+  background: rgba(255,255,255,0.7);
+  border: 1px solid var(--of-tan);
+  border-radius: var(--radius-l);
+  padding: 1.25rem 1rem;
+  flex: 1;
+  min-width: 200px;
+  max-width: 260px;
+  box-shadow: var(--shadow-s);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bock-food-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-m);
+}
+
+.bock-food-card__icon {
+  font-size: 2.25rem;
+  display: block;
+  margin-bottom: 0.6rem;
+  line-height: 1;
+}
+
+.bock-food-card__name {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--of-brown-1);
+  margin: 0 0 0.5rem;
+  line-height: 1.2;
+}
+
+.bock-food-card__desc {
+  font-size: 0.875rem;
+  color: var(--of-brown-2);
+  line-height: 1.6;
+  margin: 0;
+  font-style: italic;
+}
+
+
+/* ==========================================================
+22) Venue video wrapper — responsive iframe support
+─────────────────────────────────────────────────────────────
+SCOPE: Global (all .venue-video-wrap elements).
+
+PURPOSE:
+  Maintains 16:9 aspect ratio for venue iframes including
+  when tabs start hidden (display:none). Prevents FitVids
+  from collapsing iframes to 0px height.
+========================================================== */
+
+.venue-video-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+}
+
+.venue-video-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* FitVids override — force wrapper to fill .venue-video-wrap */
+.venue-video-wrap .fluid-width-video-wrapper {
+  padding-top: 56.25% !important;
+  height: 0 !important;
+  position: relative !important;
+}
+
+.venue-video-wrap .fluid-width-video-wrapper iframe {
+  position: absolute !important;
+  top: 0; left: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+
+/* ==========================================================
+23) Hall Rentals page — complete CSS (page-id-330)
+─────────────────────────────────────────────────────────────
+SCOPE: Global classes prefixed .venue- used exclusively
+       on the Hall Rentals page (page-id-330).
+
+IMPORTANT: The Hoot Du theme renders a dark/black background
+on this page. ALL light sections require an explicit cream
+background — rgba(255,248,230,0.95) — they cannot rely on
+a white page background.
+
+FULL WIDTH FIX: The Hoot Du theme constrains content to
+~780px leaving a black void. page-id-330 scoped rules
+force 100% width.
+========================================================== */
+
+/* ── Full width override ── */
+body.page-id-330 .content-area,
+body.page-id-330 #main,
+body.page-id-330 .site-content,
+body.page-id-330 .main-container {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+body.page-id-330 .entry-content {
+  max-width: 100% !important;
+  padding: 0 1.5rem !important;
+}
+
+body.page-id-330 .hentry {
+  max-width: 100% !important;
+}
+
+/* ── 1. Hero statement ── */
+.venue-hero {
+  text-align: center;
+  padding: var(--sp-xl) var(--sp-l);
+  max-width: 860px;
+  margin: 0 auto var(--sp-xl);
+  background: rgba(255, 248, 230, 0.95);
+  border-radius: var(--radius-xxl);
+  box-shadow: var(--shadow-s);
+}
+
+.venue-hero__headline {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--of-brown-1);
+  margin: 0 0 0.75rem;
+  line-height: 1.2;
+  text-shadow: none;
+}
+
+.venue-hero__sub {
+  font-size: 1.1rem;
+  color: var(--of-brown-2);
+  font-family: var(--font-body);
+  line-height: 1.7;
+  margin: 0;
+  text-shadow: none;
+}
+
+/* ── 2. Photo gallery ── */
+.venue-photos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  max-width: 1100px;
+  margin: 0 auto var(--sp-xl);
+}
+
+@media (max-width: 768px) {
+  .venue-photos { grid-template-columns: 1fr; }
+}
+
+.venue-photos__item {
+  border-radius: var(--radius-l);
+  overflow: hidden;
+  box-shadow: var(--shadow-m);
+  aspect-ratio: 4/3;
+}
+
+.venue-photos__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.venue-photos__item:hover img { transform: scale(1.03); }
+
+.venue-photos__caption {
+  background: var(--of-brown-1);
+  color: var(--of-cream-0);
+  font-size: 0.8rem;
+  font-family: var(--font-body);
+  text-align: center;
+  padding: 0.4rem 0.75rem;
+  font-style: italic;
+}
+
+/* ── 3. Venue spaces ── */
+.venue-spaces {
+  max-width: 1100px;
+  margin: 0 auto var(--sp-xl);
+  background: rgba(255, 248, 230, 0.95);
+  border-radius: var(--radius-xxl);
+  padding: var(--sp-xl) var(--sp-l);
+  box-shadow: var(--shadow-s);
+}
+
+.venue-spaces__heading {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--of-brown-1);
+  text-align: center;
+  margin: 0 0 1.25rem;
+  text-shadow: none;
+}
+
+.venue-spaces__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.venue-space-card {
+  background: linear-gradient(135deg, var(--of-cream-1), var(--of-cream-2));
+  border: 2px solid var(--of-burlywood);
+  border-radius: var(--radius-l);
+  padding: 1.5rem 1.25rem;
+  text-align: center;
+  box-shadow: var(--shadow-s);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.venue-space-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-m);
+}
+
+.venue-space-card__icon {
+  font-size: 2.25rem;
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+.venue-space-card__name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--of-brown-1);
+  margin: 0 0 0.5rem;
+  text-shadow: none;
+}
+
+.venue-space-card__desc {
+  font-size: 0.875rem;
+  color: var(--of-brown-2);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  margin: 0;
+  text-shadow: none;
+}
+
+/* ── 4. Amenities / features ── */
+.venue-features {
+  max-width: 1100px;
+  margin: 0 auto var(--sp-xl);
+  background: rgba(255, 248, 230, 0.95);
+  border-radius: var(--radius-xxl);
+  padding: var(--sp-xl) var(--sp-l);
+  box-shadow: var(--shadow-s);
+}
+
+.venue-features__heading {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--of-brown-1);
+  text-align: center;
+  margin: 0 0 1.25rem;
+  text-shadow: none;
+}
+
+.venue-features__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1rem;
+}
+
+.venue-feature {
+  background: rgba(255,255,255,0.8);
+  border: 1px solid var(--of-tan);
+  border-radius: var(--radius-m);
+  padding: 1rem 0.75rem;
+  text-align: center;
+  box-shadow: var(--shadow-s);
+}
+
+.venue-feature__icon {
+  font-size: 1.75rem;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.venue-feature__label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--of-brown-1);
+  font-family: var(--font-body);
+  margin: 0;
+  text-shadow: none;
+}
+
+/* ── 5. Perfect for (dark section) ── */
+.venue-perfect {
+  background: linear-gradient(135deg, #2c1a0e, #1a0f07);
+  border-radius: var(--radius-xxl);
+  padding: var(--sp-xl) var(--sp-l);
+  max-width: 1100px;
+  margin: 0 auto var(--sp-xl);
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.venue-perfect__heading {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffe8a0;
+  margin: 0 0 0.5rem;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+}
+
+.venue-perfect__sub {
+  font-size: 0.9rem;
+  color: var(--of-tan);
+  font-style: italic;
+  font-family: var(--font-body);
+  margin: 0 0 1.5rem;
+}
+
+.venue-perfect__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.875rem;
+}
+
+.venue-perfect__item {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,200,80,0.25);
+  border-radius: var(--radius-m);
+  padding: 0.875rem 0.75rem;
+  color: #e8dcc8;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-shadow: none;
+}
+
+.venue-perfect__item span {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 0.4rem;
+}
+
+/* ── 6. Location block ── */
+.venue-location {
+  background: rgba(255, 248, 230, 0.95);
+  border: 2px dashed var(--of-burlywood);
+  border-radius: var(--radius-xxl);
+  padding: var(--sp-xl) var(--sp-l);
+  max-width: 1100px;
+  margin: 0 auto var(--sp-xl);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+  box-shadow: var(--shadow-s);
+}
+
+@media (max-width: 640px) {
+  .venue-location { grid-template-columns: 1fr; }
+}
+
+.venue-location__heading {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--of-brown-1);
+  margin: 0 0 0.75rem;
+  text-shadow: none;
+}
+
+.venue-location__address {
+  font-size: 1rem;
+  color: var(--of-brown-2);
+  font-family: var(--font-body);
+  line-height: 1.7;
+  margin: 0 0 1rem;
+  text-shadow: none;
+}
+
+.venue-location__directions {
+  font-size: 0.875rem;
+  color: var(--of-brown-3);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  margin: 0;
+  text-shadow: none;
+}
+
+.venue-directions-btn {
+  display: inline-block;
+  background: var(--of-brown-1);
+  color: var(--of-cream-0) !important;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.6rem 1.25rem;
+  border-radius: 20px;
+  text-decoration: none !important;
+  margin-top: 0.875rem;
+  transition: background 0.2s ease;
+}
+
+.venue-directions-btn:hover {
+  background: var(--of-brown-0);
+}
+
+.venue-location__map iframe {
+  width: 100%;
+  border-radius: var(--radius-l);
+  border: 2px solid var(--of-burlywood);
+  display: block;
+}
+
+/* ── 7. CTA block (dark section) ── */
+.venue-cta {
+  background: linear-gradient(135deg, var(--of-brown-1), var(--of-brown-0));
+  border-radius: var(--radius-xxl);
+  padding: var(--sp-xl) var(--sp-l);
+  max-width: 1100px;
+  margin: 0 auto var(--sp-xl);
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+
+.venue-cta__heading {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffe8a0;
+  margin: 0 0 0.5rem;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+}
+
+.venue-cta__sub {
+  font-size: 1rem;
+  color: var(--of-tan);
+  font-family: var(--font-body);
+  margin: 0 0 1.75rem;
+  font-style: italic;
+}
+
+.venue-cta__contacts {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.venue-cta__contact {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,200,80,0.3);
+  border-radius: var(--radius-l);
+  padding: 1.25rem 1.75rem;
+  min-width: 220px;
+}
+
+.venue-cta__contact-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--of-gold-border);
+  font-family: var(--font-body);
+  margin: 0 0 0.4rem;
+  display: block;
+}
+
+.venue-cta__contact-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffe8a0;
+  font-family: var(--font-body);
+  text-decoration: none;
+  display: block;
+}
+
+.venue-cta__contact-value:hover {
+  color: var(--of-gold-warm);
+}
+
+.venue-cta__note {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.4);
+  font-family: var(--font-body);
+  margin: 1.25rem 0 0;
+  font-style: italic;
+}
+
+/* ── Tabbed gallery section (.venue-gallery-tabs) ── */
+.venue-gallery-tabs {
+  max-width: 1100px;
+  margin: 0 auto var(--sp-xl);
+  background: rgba(255, 248, 230, 0.95);
+  border-radius: var(--radius-xxl);
+  padding: var(--sp-xl) var(--sp-l);
+  box-shadow: var(--shadow-s);
+}
+
+.venue-gallery-tabs h2,
+.venue-gallery-tabs h2.venue-gallery-tabs__heading {
+  font-family: var(--font-display) !important;
+  font-size: 1.75rem !important;
+  font-weight: 700 !important;
+  color: var(--of-brown-1) !important;
+  text-align: center !important;
+  text-shadow: none !important;
+  margin: 0 0 1.5rem !important;
+  width: 100% !important;
+}
+
+span.venue-tab-row,
+.venue-tab-row {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  gap: 0.5rem !important;
+  margin-bottom: 1.5rem !important;
+  padding-bottom: 0.5rem !important;
+  border-bottom: 2px solid var(--of-burlywood) !important;
+  width: 100% !important;
+  align-items: center !important;
+}
+
+.venue-tab-btn {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--of-brown-3);
+  padding: 0.6rem 1.25rem;
+  cursor: pointer;
+  border-radius: var(--radius-m) var(--radius-m) 0 0;
+  border: 2px solid transparent;
+  border-bottom: none;
+  background: transparent;
+  transition: all 0.2s ease;
+  margin-bottom: -2px;
+  text-shadow: none;
+}
+
+.venue-tab-btn:hover {
+  color: var(--of-brown-1);
+  background: rgba(255,255,255,0.6);
+}
+
+.venue-tab-btn--active {
+  color: var(--of-brown-1) !important;
+  background: rgba(255, 248, 230, 0.95) !important;
+  border-color: var(--of-burlywood) !important;
+  border-bottom-color: rgba(255, 248, 230, 0.95) !important;
+}
+
+.venue-gallery-panel {
+  display: block;
+}
+
+.venue-gallery-panel__heading {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--of-brown-1);
+  margin: 0 0 0.5rem;
+  text-shadow: none;
+}
+
+.venue-gallery-panel__desc {
+  font-size: 0.9rem;
+  color: var(--of-brown-2);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  margin: 0 0 1.25rem;
+  text-shadow: none;
+}
+
+.venue-video-label {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--of-brown-3);
+  font-family: var(--font-body);
+  text-align: center;
+  margin: -1rem 0 1.5rem;
+  text-shadow: none;
+}
+
+.venue-gallery-coming-soon {
+  background: rgba(255,255,255,0.5);
+  border: 2px dashed var(--of-tan);
+  border-radius: var(--radius-l);
+  padding: 2rem;
+  text-align: center;
+  color: var(--of-brown-3);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+/* ==========================================================
+   24) Maifest page — page-id-4887
+   ──────────────────────────────────────────────────────────
+   SCOPE:  Maifest page only (page ID 4887).
+   PREFIX: All classes use .gasf-mai- to avoid collision
+           with other event page components.
+   PALETTE:
+     Bavarian Blue   #1E5FAD  (Maibaum stripes)
+     Deep Navy       #0D3D73  (Hero overlay, dark sections)
+     Spring Green    #3A7D44  (Heritage / ribbons)
+     Fresh Green     #5BA968  (Accents, highlights)
+     Warm Gold       #E8B04B  (Pretzel / beer accent)
+     Cream           #FAF6EB  (Light backgrounds)
+     Ink             #1a1a1a  (Body text)
+   ========================================================== */
+
+/* ── 24a. HERO — Split layout (image left, content right) ── */
+.gasf-mai-hero {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  min-height: 540px;
+  margin: -30px -30px 40px -30px;
+  overflow: hidden;
+  border-radius: 0 0 12px 12px;
+  background: #0d3d73;
+  position: relative;
+}
+.gasf-mai-hero__image {
+  background-size: cover;
+  background-position: center 15%;
+  background-repeat: no-repeat;
+  position: relative;
+  min-height: 540px;
+}
+.gasf-mai-hero__image::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(13, 61, 115, 0.85) 100%
+  );
+  pointer-events: none;
+}
+.gasf-mai-hero__content {
+  padding: 52px 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--gasf-hero-gradient);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.gasf-mai-hero__content::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 180px;
+  height: 180px;
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.06) 16px,
+    transparent 16px,
+    transparent 32px
+  );
+  border-radius: 50%;
+  pointer-events: none;
+}
+.gasf-mai-hero__inner {
+  position: relative;
+  z-index: 2;
+  max-width: 560px;
+}
+.gasf-mai-hero__kicker {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 13px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(58, 125, 68, 0.85);
+  padding: 6px 18px;
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
+.gasf-mai-hero__title {
+  font-family: var(--font-display) !important;
+  font-size: clamp(40px, 5.2vw, 64px);
+  line-height: 1;
+  margin: 0 0 12px 0;
+  color: #fff !important;
+  letter-spacing: 1px;
+}
+.gasf-mai-hero__sub {
+  font-family: var(--font-body);
+  font-size: 19px;
+  font-style: italic;
+  color: var(--gasf-hero-text);
+  margin: 0 0 28px 0;
+  line-height: 1.4;
+}
+.gasf-mai-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 0;
+}
+.gasf-mai-hero__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #0d3d73;
+  padding: 10px 18px;
+  border-radius: 40px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.gasf-mai-hero__pill--admission {
+  background: rgba(232, 176, 75, 0.95);
+  color: #1a1a1a;
+}
+
+@media (max-width: 880px) {
+  .gasf-mai-hero {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+  .gasf-mai-hero__image {
+    min-height: 280px;
+    max-height: 340px;
+    background-position: center 30%;
+  }
+  .gasf-mai-hero__image::after {
+    top: auto;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(13, 61, 115, 0.85) 100%
+    );
+  }
+  .gasf-mai-hero__content {
+    padding: 36px 28px;
+  }
+}
+
+/* ── 24b. WHAT IS MAIFEST? ─────────────────────────────── */
+.gasf-mai-origin {
+  background: var(--gasf-hero-gradient);
+  color: var(--gasf-hero-text);
+  padding: 56px 40px;
+  border-radius: 12px;
+  margin: 40px -30px;
+  position: relative;
+  overflow: hidden;
+}
+.gasf-mai-origin::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  right: -30px;
+  width: 140px;
+  height: 140px;
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.08) 14px,
+    transparent 14px,
+    transparent 28px
+  );
+  border-radius: 50%;
+  pointer-events: none;
+}
+.gasf-mai-origin__heading {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 44px);
+  color: #fff;
+  text-align: center;
+  margin: 0 0 8px 0;
+  letter-spacing: 1px;
+}
+.gasf-mai-origin__lead {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.6vw, 28px);
+  color: var(--gasf-gold);
+  text-align: center;
+  margin: 0 0 28px 0;
+  letter-spacing: 0.5px;
+}
+.gasf-mai-origin__text {
+  max-width: 720px;
+  margin: 0 auto 22px auto;
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--gasf-hero-text);
+  text-align: center;
+}
+.gasf-mai-origin__text strong { color: #fff; }
+
+.gasf-mai-maibaum-callout {
+  max-width: 720px;
+  margin: 30px auto 22px auto;
+  background: rgba(255, 255, 255, 0.06);
+  border-left: 5px solid var(--gasf-gold);
+  border-radius: 8px;
+  padding: 26px 28px;
+  text-align: left;
+  position: relative;
+}
+.gasf-mai-maibaum-callout__icon {
+  font-size: 42px;
+  line-height: 1;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 0 10px rgba(232, 176, 75, 0.4));
+}
+.gasf-mai-maibaum-callout__name {
+  font-family: var(--font-display);
+  font-size: 32px;
+  color: #fff;
+  margin: 0 0 4px 0;
+  letter-spacing: 1px;
+}
+.gasf-mai-maibaum-callout__subtitle {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--gasf-gold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0 0 14px 0;
+}
+.gasf-mai-maibaum-callout__desc {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--gasf-hero-text);
+  margin: 0;
+}
+.gasf-mai-origin__closer {
+  max-width: 680px;
+  margin: 30px auto 0 auto;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-style: italic;
+  color: var(--gasf-gold);
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+/* ── 24c. AT A GLANCE ──────────────────────────────────── */
+.gasf-mai-glance {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin: 40px 0;
+}
+.gasf-mai-glance__card {
+  background: var(--gasf-hero-text);
+  border: 2px solid #1e5fad;
+  border-radius: 10px;
+  padding: 22px 16px;
+  text-align: center;
+}
+.gasf-mai-glance__icon { font-size: 28px; margin-bottom: 6px; }
+.gasf-mai-glance__label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #1e5fad;
+  margin: 0 0 4px 0;
+  font-weight: 700;
+}
+.gasf-mai-glance__value {
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.2;
+  color: #0d3d73;
+  margin: 0;
+}
+.gasf-mai-glance__sub {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: #555;
+  margin: 4px 0 0 0;
+}
+@media (max-width: 780px) {
+  .gasf-mai-glance { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── 24d. SECTION HEADINGS (shared) ───────────────────── */
+.gasf-mai-section-heading {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4vw, 40px);
+  color: #0d3d73;
+  text-align: center;
+  margin: 50px 0 8px 0;
+  letter-spacing: 1px;
+}
+.gasf-mai-section-heading::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 3px;
+  background: var(--gasf-gold);
+  margin: 12px auto 0 auto;
+  border-radius: 2px;
+}
+.gasf-mai-section-sub {
+  text-align: center;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 17px;
+  color: #3a7d44;
+  margin: 0 0 30px 0;
+}
+
+/* ── 24e. SCHEDULE ─────────────────────────────────────── */
+.gasf-mai-schedule {
+  max-width: 680px;
+  margin: 0 auto 40px auto;
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px 0;
+  border: 1px solid #e5e5e5;
+}
+.gasf-mai-schedule__item {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 16px;
+  padding: 14px 24px;
+  align-items: baseline;
+  border-bottom: 1px dashed #e5e5e5;
+}
+.gasf-mai-schedule__item:last-child { border-bottom: none; }
+.gasf-mai-schedule__time {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: #1e5fad;
+  font-weight: 700;
+}
+.gasf-mai-schedule__event {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.4;
+  color: #1a1a1a;
+}
+.gasf-mai-schedule__item--feature {
+  background: linear-gradient(90deg, rgba(232, 176, 75, 0.12), transparent);
+  border-left: 4px solid var(--gasf-gold);
+}
+.gasf-mai-schedule__item--feature .gasf-mai-schedule__event { font-weight: 600; }
+
+/* ── 24f. FOOD GRID ────────────────────────────────────── */
+.gasf-mai-food-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  max-width: 900px;
+  margin: 0 auto 16px auto;
+}
+.gasf-mai-food-card {
+  background: var(--gasf-hero-text);
+  border: 1px solid #e5dfc7;
+  border-radius: 10px;
+  padding: 22px 16px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.gasf-mai-food-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(30, 95, 173, 0.12);
+}
+.gasf-mai-food-card__icon { font-size: 32px; line-height: 1; margin-bottom: 8px; }
+.gasf-mai-food-card__name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: #0d3d73;
+  margin: 0;
+}
+.gasf-mai-food-note {
+  text-align: center;
+  font-family: var(--font-body);
+  font-style: italic;
+  color: #555;
+  max-width: 640px;
+  margin: 16px auto 40px auto;
+}
+@media (max-width: 780px) {
+  .gasf-mai-food-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── 24g. BEER FEATURE — Maibock ───────────────────────── */
+.gasf-mai-beer {
+  max-width: 860px;
+  margin: 0 auto 40px auto;
+  background: linear-gradient(135deg, var(--gasf-hero-text) 0%, #f3ecd1 100%);
+  border: 2px solid var(--gasf-gold);
+  border-radius: 12px;
+  padding: 36px 32px;
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 28px;
+  align-items: center;
+}
+.gasf-mai-beer__stein {
+  font-size: 110px;
+  line-height: 1;
+  text-align: center;
+  filter: drop-shadow(0 4px 10px rgba(232, 176, 75, 0.3));
+}
+.gasf-mai-beer__style-tag {
+  display: inline-block;
+  background: var(--gasf-gold);
+  color: #1a1a1a;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+.gasf-mai-beer__name {
+  font-family: var(--font-display);
+  font-size: 34px;
+  color: #0d3d73;
+  margin: 0 0 4px 0;
+  line-height: 1;
+}
+.gasf-mai-beer__subtitle {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: #3a7d44;
+  margin: 0 0 12px 0;
+  font-size: 16px;
+}
+.gasf-mai-beer__desc {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: #1a1a1a;
+  margin: 0;
+}
+.gasf-mai-beer__other {
+  text-align: center;
+  font-family: var(--font-body);
+  font-style: italic;
+  color: #555;
+  max-width: 680px;
+  margin: -24px auto 40px auto;
+  font-size: 15px;
+}
+@media (max-width: 640px) {
+  .gasf-mai-beer { grid-template-columns: 1fr; text-align: center; }
+  .gasf-mai-beer__stein { font-size: 80px; }
+}
+
+/* ── 24h. PERFORMERS ───────────────────────────────────── */
+.gasf-mai-performers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  max-width: 1000px;
+  margin: 0 auto 40px auto;
+}
+.gasf-mai-performer {
+  background: #fff;
+  border-top: 4px solid #1e5fad;
+  border-radius: 10px;
+  padding: 26px 22px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(13, 61, 115, 0.08);
+}
+.gasf-mai-performer:nth-child(2) { border-top-color: #3a7d44; }
+.gasf-mai-performer:nth-child(3) { border-top-color: var(--gasf-gold); }
+.gasf-mai-performer__type {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #777;
+  margin: 0 0 8px 0;
+  font-weight: 700;
+}
+.gasf-mai-performer__name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: #0d3d73;
+  margin: 0 0 12px 0;
+  line-height: 1.15;
+}
+.gasf-mai-performer__desc {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.55;
+  color: #333;
+  margin: 0;
+}
+@media (max-width: 780px) {
+  .gasf-mai-performers { grid-template-columns: 1fr; }
+}
+
+/* ── 24i. VENDOR VILLAGE ───────────────────────────────── */
+.gasf-mai-vendors {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 1000px;
+  margin: 0 auto 40px auto;
+}
+.gasf-mai-vendor {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 170px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.gasf-mai-vendor:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(30, 95, 173, 0.15);
+  border-color: #1e5fad;
+}
+.gasf-mai-vendor img {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: contain;
+  margin: 0 auto;
+}
+.gasf-mai-vendor__name {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: #0d3d73;
+  margin: 0;
+  line-height: 1.3;
+}
+.gasf-mai-vendor__name a {
+  color: #0d3d73;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+.gasf-mai-vendor__name a:hover { border-bottom-color: var(--gasf-gold); }
+@media (max-width: 900px) {
+  .gasf-mai-vendors { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 640px) {
+  .gasf-mai-vendors { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── 24j. PARKING / FOOTER NOTICE ─────────────────────── */
+.gasf-mai-parking {
+  max-width: 720px;
+  margin: 20px auto 0 auto;
+  background: #fff8e7;
+  border-left: 4px solid var(--gasf-gold);
+  border-radius: 6px;
+  padding: 20px 24px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: #3a3a3a;
+}
+.gasf-mai-parking strong {
+  color: #0d3d73;
+  display: block;
+  margin-bottom: 6px;
+  font-size: 16px;
+}
+
+/* ── 24k. MOBILE ADJUSTMENTS ───────────────────────────── */
+@media (max-width: 640px) {
+  .gasf-mai-origin { padding: 40px 24px; margin: 30px -20px; }
+  .gasf-mai-maibaum-callout { padding: 20px; }
+}
+
+/* end section 24 — gasf-mai- Maifest page */
+
+/* ── Address pill — two-line layout ── */
+.gasf-mai-hero__pill--address {
+  white-space: normal;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  line-height: 1.3;
+  gap: 2px;
+}
+
+/* ── Dark gradient wrapper — shared across all sections ── */
+.gasf-mai-dark-section {
+  background: var(--gasf-hero-gradient);
+  padding: 56px 40px;
+  border-radius: 12px;
+  margin: 20px -30px;
+  position: relative;
+  overflow: hidden;
+}
+.gasf-mai-dark-section::before {
+  content: "";
+  position: absolute;
+  top: -20px; right: -30px;
+  width: 140px; height: 140px;
+  background: repeating-linear-gradient(-45deg, rgba(255,255,255,0.06), rgba(255,255,255,0.06) 14px, transparent 14px, transparent 28px);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.gasf-mai-dark-section .gasf-mai-section-heading { color: #fff; }
+.gasf-mai-dark-section .gasf-mai-section-sub { color: var(--gasf-gold); }
+.gasf-mai-dark-section .gasf-mai-food-note,
+.gasf-mai-dark-section .gasf-mai-beer__other { color: var(--gasf-hero-text); }
+@media (max-width: 640px) {
+  .gasf-mai-dark-section { padding: 40px 24px; margin: 16px -20px; }
+}
+
+/* ── Parking/notice block — link contrast fix ── */
+.gasf-mai-parking a {
+  color: #0d3d73;
+  text-decoration: underline;
+}
+.gasf-mai-parking a:hover {
+  color: #1e5fad;
+}
+
+/* ==========================================================
+   25) Homepage identity strip — .gasf-home-identity
+   ========================================================== */
+.gasf-home-identity {
+  background-color: #000000;
+  padding: 48px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.gasf-home-identity__inner {
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: center;
+}
+.gasf-home-identity__since {
+  font-family: var(--font-body);
+  font-size: 13px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #339999;
+  margin: 0 0 16px 0;
+}
+.gasf-home-identity__headline {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.6vw, 40px);
+  color: #fff;
+  line-height: 1.15;
+  margin: 0 0 24px 0;
+  letter-spacing: 0.5px;
+}
+.gasf-home-identity__events {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.9;
+  color: rgba(255,255,255,0.75);
+  margin: 0 0 20px 0;
+}
+.gasf-home-identity__closer {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-style: italic;
+  color: rgba(255,255,255,0.85);
+  margin: 0 0 8px 0;
+  line-height: 1.6;
+}
+.gasf-home-identity__cta {
+  display: inline-block;
+  margin-top: 24px;
+  background: radial-gradient(circle at 30% 20%, #339999, #236c6c);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 18px 40px;
+  border-radius: 16px;
+  text-decoration: none;
+  box-shadow: 0 8px 16px rgba(30, 144, 255, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+.gasf-home-identity__cta:hover {
+  border-color: #87cefa;
+  color: #e6ffff;
+  transform: scale(1.04);
+}
+@media (max-width: 640px) {
+  .gasf-home-identity { padding: 40px 20px; }
+  .gasf-home-identity__events { font-size: 14px; }
+}
+/* end section 25 — gasf-home-identity strip */
+
+/* ==========================================================
+   26) Membership page — page-id-2840
+   PREFIX: .gasf-mem-
+   ========================================================== */
+
+/* ── 26a. HERO ─────────────────────────────────────────────── */
+.gasf-mem-hero {
+  background: var(--gasf-hero-gradient);
+  padding: 72px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin: -30px -30px 0 -30px;
+}
+.gasf-mem-hero::before {
+  content: "";
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 200px; height: 200px;
+  background: repeating-linear-gradient(-45deg, rgba(255,255,255,0.05), rgba(255,255,255,0.05) 14px, transparent 14px, transparent 28px);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.gasf-mem-hero__inner {
+  max-width: 760px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+.gasf-mem-hero__kicker {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gasf-gold);
+  margin-bottom: 20px;
+}
+.gasf-mem-hero__title {
+  font-family: var(--font-display) !important;
+  font-size: clamp(36px, 5vw, 60px);
+  color: #fff !important;
+  line-height: 1.1;
+  margin: 0 0 20px 0;
+  letter-spacing: 0.5px;
+}
+.gasf-mem-hero__sub {
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--gasf-hero-text);
+  margin: 0 0 36px 0;
+  font-style: italic;
+}
+.gasf-mem-hero__cta {
+  display: inline-block;
+  background: var(--gasf-gold);
+  color: #1a1a1a !important;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16px;
+  padding: 16px 42px;
+  border-radius: 40px;
+  text-decoration: none !important;
+  transition: background 0.2s ease, transform 0.2s ease;
+  letter-spacing: 0.5px;
+}
+.gasf-mem-hero__cta:hover {
+  background: #f0c060;
+  transform: translateY(-2px);
+}
+
+/* ── 26b. BENEFITS GRID ────────────────────────────────────── */
+.gasf-mem-benefits {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.gasf-mem-benefit {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 32px 28px;
+  text-align: left;
+}
+.gasf-mem-benefit__icon {
+  font-size: 36px;
+  line-height: 1;
+  margin-bottom: 14px;
+}
+.gasf-mem-benefit__title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: #fff;
+  margin: 0 0 12px 0;
+  letter-spacing: 0.5px;
+}
+.gasf-mem-benefit__desc {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.82);
+  margin: 0;
+}
+.gasf-mem-benefit__desc strong { color: #fff; }
+@media (max-width: 700px) {
+  .gasf-mem-benefits { grid-template-columns: 1fr; }
+}
+
+/* ── 26c. PRICING ──────────────────────────────────────────── */
+.gasf-mem-pricing {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0 auto 24px auto;
+  max-width: 700px;
+}
+.gasf-mem-price-card {
+  background: rgba(255,255,255,0.06);
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 16px;
+  padding: 40px 36px;
+  text-align: center;
+  flex: 1;
+  min-width: 240px;
+  max-width: 300px;
+  transition: transform 0.2s ease;
+}
+.gasf-mem-price-card--featured {
+  border-color: var(--gasf-gold);
+  background: rgba(232,176,75,0.08);
+}
+.gasf-mem-price-card:hover { transform: translateY(-3px); }
+.gasf-mem-price-card__icon { font-size: 40px; margin-bottom: 12px; }
+.gasf-mem-price-card__tier {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: #fff;
+  margin: 0 0 12px 0;
+}
+.gasf-mem-price-card__price {
+  font-family: var(--font-display);
+  font-size: 52px;
+  color: var(--gasf-gold);
+  line-height: 1;
+  margin: 0 0 16px 0;
+}
+.gasf-mem-price-card__price span {
+  font-size: 20px;
+  color: rgba(255,255,255,0.6);
+  font-family: var(--font-body);
+}
+.gasf-mem-price-card__desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.75);
+  margin: 0 0 24px 0;
+}
+.gasf-mem-price-card__cta {
+  display: inline-block;
+  background: var(--gasf-gold);
+  color: #1a1a1a !important;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 12px 28px;
+  border-radius: 40px;
+  text-decoration: none !important;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.gasf-mem-price-card__cta:hover {
+  background: #f0c060;
+  transform: translateY(-2px);
+}
+.gasf-mem-pricing__alt {
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: rgba(255,255,255,0.65);
+  margin: 0;
+}
+.gasf-mem-pricing__alt a {
+  color: var(--gasf-gold);
+  text-decoration: underline;
+}
+
+/* ── 26d. CLOSING ──────────────────────────────────────────── */
+.gasf-mem-closing {
+  text-align: center;
+  padding: 64px 40px;
+  background: #0d3d73;
+  margin: 0 -30px;
+}
+.gasf-mem-closing__text {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3vw, 32px);
+  color: #fff;
+  line-height: 1.4;
+  margin: 0 0 32px 0;
+}
+@media (max-width: 640px) {
+  .gasf-mem-hero { padding: 56px 24px; margin: -20px -20px 0 -20px; }
+  .gasf-mem-closing { padding: 48px 24px; margin: 0 -20px; }
+  .gasf-mem-price-card { min-width: 100%; }
+}
+
+/* end section 26 — gasf-mem- membership page */
+
+/* ==========================================================
+   27) History page — page-id-44
+   PREFIX: .gasf-hist-
+   ========================================================== */
+
+.gasf-hist-intro {
+  background: var(--gasf-hero-gradient);
+  padding: 56px 40px;
+  text-align: center;
+  margin: -30px -30px 0 -30px;
+  position: relative;
+  overflow: hidden;
+}
+.gasf-hist-intro__kicker {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gasf-gold);
+  display: block;
+  margin-bottom: 14px;
+}
+.gasf-hist-intro__title {
+  font-family: var(--font-display) !important;
+  font-size: clamp(36px, 5vw, 56px);
+  color: #fff !important;
+  margin: 0 0 16px 0;
+  letter-spacing: 1px;
+}
+.gasf-hist-intro__sub {
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--gasf-hero-text);
+  max-width: 680px;
+  margin: 0 auto;
+  font-style: italic;
+}
+
+/* ── Timeline body ── */
+.gasf-hist-body {
+  padding: 48px 0;
+  max-width: 820px;
+  margin: 0 auto;
+}
+.gasf-hist-milestone {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 24px;
+  margin-bottom: 48px;
+  position: relative;
+}
+.gasf-hist-milestone::before {
+  content: "";
+  position: absolute;
+  left: 49px;
+  top: 40px;
+  bottom: -48px;
+  width: 2px;
+  background: linear-gradient(180deg, #1e5fad 0%, rgba(30,95,173,0.1) 100%);
+}
+.gasf-hist-milestone:last-child::before { display: none; }
+
+.gasf-hist-milestone__year {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: #fff;
+  background: linear-gradient(135deg, #0d3d73, #1e5fad);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 64px;
+  width: 64px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(13,61,115,0.3);
+  position: relative;
+  z-index: 1;
+  line-height: 1.1;
+  padding: 4px;
+}
+.gasf-hist-milestone__content {
+  padding-top: 14px;
+}
+.gasf-hist-milestone__content p {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.75;
+  color: #2a2a2a;
+  margin: 0 0 16px 0;
+}
+.gasf-hist-milestone__content p:last-child { margin-bottom: 0; }
+
+/* ── Callout block ── */
+.gasf-hist-callout {
+  background: var(--gasf-hero-text);
+  border-left: 4px solid var(--gasf-gold);
+  border-radius: 6px;
+  padding: 18px 22px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  color: #1a1a1a;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+/* ── Photo gallery ── */
+.gasf-hist-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+.gasf-hist-gallery--single {
+  grid-template-columns: 1fr;
+  max-width: 400px;
+}
+.gasf-hist-figure {
+  margin: 0;
+}
+.gasf-hist-figure img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  border: 3px solid #e5e5e5;
+}
+.gasf-hist-figure figcaption {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: #666;
+  font-style: italic;
+  margin-top: 8px;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .gasf-hist-intro { padding: 40px 20px; margin: -20px -20px 0 -20px; }
+  .gasf-hist-milestone { grid-template-columns: 72px 1fr; gap: 16px; }
+  .gasf-hist-milestone__year { width: 52px; height: 52px; font-size: 17px; }
+  .gasf-hist-milestone::before { left: 37px; }
+  .gasf-hist-gallery { grid-template-columns: 1fr; }
+}
+/* ── History page — force light background on timeline body ── */
+.gasf-hist-body .gasf-hist-milestone__content p {
+  color: var(--gasf-hero-text);
+}
+/* end section 27 — gasf-hist- history page */
+
+/* ==========================================================
+   28) About Us page — page-id-12414
+   PREFIX: .gasf-about-
+   ========================================================== */
+
+.gasf-about-hero {
+  background: var(--gasf-hero-gradient);
+  padding: 72px 40px;
+  text-align: center;
+  margin: -30px -30px 0 -30px;
+  position: relative;
+  overflow: hidden;
+}
+.gasf-about-hero::before {
+  content: "";
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 200px; height: 200px;
+  background: repeating-linear-gradient(-45deg, rgba(255,255,255,0.05), rgba(255,255,255,0.05) 14px, transparent 14px, transparent 28px);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.gasf-about-hero__inner {
+  max-width: 760px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+.gasf-about-hero__kicker {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gasf-gold);
+  margin-bottom: 20px;
+}
+.gasf-about-hero__title {
+  font-family: var(--font-display) !important;
+  font-size: clamp(34px, 5vw, 58px);
+  color: #fff !important;
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* ── Body copy ── */
+.gasf-about-body {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 52px 20px 40px 20px;
+}
+.gasf-about-lead {
+  font-family: var(--font-body);
+  font-size: 20px;
+  line-height: 1.65;
+  color: var(--gasf-hero-text);
+  font-style: italic;
+  margin: 0 0 28px 0;
+  padding-bottom: 28px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.gasf-about-text {
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--gasf-hero-text);
+  margin: 0 0 22px 0;
+}
+.gasf-about-text em { color: var(--gasf-gold); font-style: italic; }
+
+/* ── CTAs ── */
+.gasf-about-ctas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 20px 56px 20px;
+}
+.gasf-about-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 32px 20px;
+  border-radius: 12px;
+  text-decoration: none !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  gap: 8px;
+}
+.gasf-about-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+.gasf-about-cta--primary {
+  background: var(--gasf-gold);
+  border: 2px solid var(--gasf-gold);
+}
+.gasf-about-cta--secondary {
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255,255,255,0.15);
+}
+.gasf-about-cta__icon { font-size: 32px; line-height: 1; }
+.gasf-about-cta__label {
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1.1;
+}
+.gasf-about-cta--primary .gasf-about-cta__label { color: #1a1a1a; }
+.gasf-about-cta--secondary .gasf-about-cta__label { color: #fff; }
+.gasf-about-cta__sub {
+  font-family: var(--font-body);
+  font-size: 13px;
+}
+.gasf-about-cta--primary .gasf-about-cta__sub { color: rgba(0,0,0,0.6); }
+.gasf-about-cta--secondary .gasf-about-cta__sub { color: rgba(255,255,255,0.6); }
+
+@media (max-width: 640px) {
+  .gasf-about-hero { padding: 52px 24px; margin: -20px -20px 0 -20px; }
+  .gasf-about-ctas { grid-template-columns: 1fr; }
+}
+
+/* end section 28 — gasf-about- about page */
+
+/* ==========================================================
+   29) Scholarship page — page-id-3497
+   PREFIX: .gasf-sch-
+   ========================================================== */
+
+/* ── Hero ── */
+.gasf-sch-hero {
+  background: var(--gasf-hero-gradient);
+  padding: 64px 40px;
+  text-align: center;
+  margin: -30px -30px 0 -30px;
+  position: relative;
+  overflow: hidden;
+}
+.gasf-sch-hero::before {
+  content: "";
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 200px; height: 200px;
+  background: repeating-linear-gradient(-45deg, rgba(255,255,255,0.05), rgba(255,255,255,0.05) 14px, transparent 14px, transparent 28px);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.gasf-sch-hero__inner {
+  max-width: 760px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+.gasf-sch-hero__kicker {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gasf-gold);
+  margin-bottom: 16px;
+}
+.gasf-sch-hero__title {
+  font-family: var(--font-display) !important;
+  font-size: clamp(34px, 5vw, 54px);
+  color: #fff !important;
+  margin: 0 0 16px 0;
+  letter-spacing: 0.5px;
+}
+.gasf-sch-hero__sub {
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--gasf-hero-text);
+  font-style: italic;
+  margin: 0 0 28px 0;
+}
+.gasf-sch-hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.gasf-sch-hero__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.95);
+  color: #0d3d73;
+  padding: 10px 18px;
+  border-radius: 40px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* ── Detail cards ── */
+.gasf-sch-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.gasf-sch-detail {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 28px 24px;
+  text-align: center;
+}
+.gasf-sch-detail__icon { font-size: 32px; margin-bottom: 10px; }
+.gasf-sch-detail__title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: #fff;
+  margin: 0 0 10px 0;
+}
+.gasf-sch-detail__desc {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.8);
+  margin: 0;
+}
+.gasf-sch-detail__desc strong { color: #fff; }
+.gasf-sch-detail__desc a { color: var(--gasf-gold); }
+
+/* ── Steps ── */
+.gasf-sch-steps {
+  max-width: 760px;
+  margin: 0 auto 32px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.gasf-sch-step {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 20px;
+  align-items: start;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 24px;
+}
+.gasf-sch-step__num {
+  width: 48px;
+  height: 48px;
+  background: var(--gasf-gold);
+  color: #1a1a1a;
+  font-family: var(--font-display);
+  font-size: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+.gasf-sch-step__title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: #fff;
+  margin: 0 0 8px 0;
+}
+.gasf-sch-step__desc {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.8);
+  margin: 0 0 14px 0;
+}
+.gasf-sch-step__download {
+  display: inline-block;
+  background: rgba(232,176,75,0.15);
+  border: 1px solid var(--gasf-gold);
+  color: var(--gasf-gold) !important;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none !important;
+  transition: background 0.2s ease;
+}
+.gasf-sch-step__download:hover {
+  background: rgba(232,176,75,0.28);
+}
+
+/* ── Submit block ── */
+.gasf-sch-submit {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+  background: rgba(232,176,75,0.08);
+  border: 2px solid var(--gasf-gold);
+  border-radius: 12px;
+  padding: 32px 28px;
+}
+.gasf-sch-submit__text {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: rgba(255,255,255,0.8);
+  margin: 0 0 10px 0;
+}
+.gasf-sch-submit__email {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 26px;
+  color: var(--gasf-gold) !important;
+  text-decoration: none !important;
+  margin-bottom: 14px;
+}
+.gasf-sch-submit__email:hover { text-decoration: underline !important; }
+.gasf-sch-submit__deadline {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: rgba(255,255,255,0.7);
+  margin: 0;
+}
+.gasf-sch-submit__deadline strong { color: #fff; }
+
+@media (max-width: 640px) {
+  .gasf-sch-hero { padding: 48px 24px; margin: -20px -20px 0 -20px; }
+  .gasf-sch-details { grid-template-columns: 1fr; }
+  .gasf-sch-step { grid-template-columns: 1fr; }
+  .gasf-sch-step__num { margin-bottom: 4px; }
+}
+
+/* end section 29 — gasf-sch- scholarship page */
+
+/* ==========================================================
+   30) Contact page — page-id-3420
+   PREFIX: .gasf-contact-
+   ========================================================== */
+
+.gasf-contact-hero {
+  background: var(--gasf-hero-gradient);
+  padding: 52px 40px;
+  text-align: center;
+  margin: -30px -30px 0 -30px;
+}
+.gasf-contact-hero__inner { max-width: 600px; margin: 0 auto; }
+.gasf-contact-hero__title {
+  font-family: var(--font-display) !important;
+  font-size: clamp(32px, 4vw, 48px);
+  color: #fff !important;
+  margin: 0 0 10px 0;
+}
+.gasf-contact-hero__sub {
+  font-family: var(--font-body);
+  font-size: 17px;
+  font-style: italic;
+  color: var(--gasf-hero-text);
+  margin: 0;
+}
+
+/* ── Cards ── */
+.gasf-contact-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 860px;
+  margin: 40px auto;
+}
+.gasf-contact-card {
+  background: var(--gasf-hero-text);
+  border: 2px solid #1e5fad;
+  border-radius: 10px;
+  padding: 28px 20px;
+  text-align: center;
+}
+.gasf-contact-card__icon { font-size: 28px; margin-bottom: 8px; }
+.gasf-contact-card__label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #1e5fad;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+.gasf-contact-card__value {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: #1a1a1a;
+  margin: 0;
+  line-height: 1.5;
+}
+.gasf-contact-card__value a {
+  color: #0d3d73;
+  text-decoration: none;
+  font-weight: 600;
+}
+.gasf-contact-card__value a:hover { text-decoration: underline; }
+
+/* ── Map ── */
+.gasf-contact-map {
+  margin: 0 -30px;
+  line-height: 0;
+}
+.gasf-contact-map iframe {
+  width: 100%;
+  height: 400px;
+  border: 0;
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .gasf-contact-hero { padding: 40px 20px; margin: -20px -20px 0 -20px; }
+  .gasf-contact-cards { grid-template-columns: 1fr; margin: 28px 0; }
+  .gasf-contact-map { margin: 0 -20px; }
+  .gasf-contact-map iframe { height: 280px; }
+}
+
+/* end section 30 — gasf-contact- contact page */
+
+/* ==========================================================
+   31) Board of Directors page — page-id-5259
+   PREFIX: .gasf-bod-
+   ========================================================== */
+
+/* ── Hero ── */
+.gasf-bod-hero {
+  background: var(--gasf-hero-gradient);
+  padding: 56px 40px;
+  text-align: center;
+  margin: -30px -30px 0 -30px;
+  position: relative;
+  overflow: hidden;
+}
+.gasf-bod-hero::before {
+  content: "";
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 200px; height: 200px;
+  background: repeating-linear-gradient(-45deg, rgba(255,255,255,0.05), rgba(255,255,255,0.05) 14px, transparent 14px, transparent 28px);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.gasf-bod-hero__inner {
+  max-width: 680px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+.gasf-bod-hero__kicker {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gasf-gold);
+  margin-bottom: 14px;
+}
+.gasf-bod-hero__title {
+  font-family: var(--font-display) !important;
+  font-size: clamp(32px, 4.5vw, 52px);
+  color: #fff !important;
+  margin: 0 0 14px 0;
+  letter-spacing: 0.5px;
+}
+.gasf-bod-hero__sub {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-style: italic;
+  color: var(--gasf-hero-text);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── Sections ── */
+.gasf-bod-section {
+  padding: 48px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.gasf-bod-section--directors {
+  padding-top: 0;
+}
+.gasf-bod-section__heading {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--gasf-hero-text);
+  text-align: center;
+  margin: 0 0 8px 0;
+  letter-spacing: 0.5px;
+}
+.gasf-bod-section__heading::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: var(--gasf-gold);
+  margin: 10px auto 32px auto;
+  border-radius: 2px;
+}
+
+/* ── Grids ── */
+.gasf-bod-grid {
+  display: grid;
+  gap: 24px;
+  justify-items: center;
+}
+.gasf-bod-grid--officers {
+  grid-template-columns: repeat(4, 1fr);
+}
+.gasf-bod-grid--directors {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* ── Cards ── */
+.gasf-bod-card {
+  text-align: center;
+  width: 100%;
+  max-width: 180px;
+}
+.gasf-bod-card__photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 14px auto;
+  border: 3px solid #1e5fad;
+  box-shadow: 0 4px 16px rgba(13,61,115,0.3);
+  background: #0d3d73;
+}
+.gasf-bod-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+.gasf-bod-card__name {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gasf-hero-text);
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+.gasf-bod-card__title {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--gasf-gold);
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 780px) {
+  .gasf-bod-grid--officers { grid-template-columns: repeat(3, 1fr); }
+  .gasf-bod-grid--directors { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 520px) {
+  .gasf-bod-hero { padding: 40px 20px; margin: -20px -20px 0 -20px; }
+  .gasf-bod-grid--officers,
+  .gasf-bod-grid--directors { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* end section 31 — gasf-bod- board of directors page */
+
+/* ==========================================================
+   32) Cultural Foundation page — page-id-9981
+   PREFIX: .gasf-cf-
+   PALETTE: Distinct from main site — forest green + warm gold
+     Forest Green  var(--gasf-cf-green)
+     Deep Green    var(--gasf-cf-dark)
+     Warm Gold     var(--gasf-gold-dark)
+     Light Gold    #e8d5a3
+     Parchment     #f8f4e8
+     Charcoal      #2a2a2a
+   ========================================================== */
+
+/* ── Hero ── */
+.gasf-cf-hero {
+  background: linear-gradient(135deg, var(--gasf-cf-dark) 0%, var(--gasf-cf-green) 60%, var(--gasf-cf-dark) 100%);
+  padding: 64px 40px;
+  text-align: center;
+  margin: -30px -30px 0 -30px;
+  position: relative;
+  overflow: hidden;
+}
+.gasf-cf-hero::before {
+  content: "";
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 220px; height: 220px;
+  background: repeating-linear-gradient(-45deg, rgba(201,168,76,0.06), rgba(201,168,76,0.06) 14px, transparent 14px, transparent 28px);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.gasf-cf-hero__inner {
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+.gasf-cf-hero__logo {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  margin: 0 auto 20px auto;
+  display: block;
+  filter: brightness(1.1);
+}
+.gasf-cf-hero__title {
+  font-family: var(--font-display) !important;
+  font-size: clamp(28px, 4vw, 48px);
+  color: #f8f4e8 !important;
+  line-height: 1.15;
+  margin: 0 0 12px 0;
+  letter-spacing: 0.5px;
+}
+.gasf-cf-hero__sub {
+  font-family: var(--font-body);
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gasf-gold-dark);
+  margin: 0 0 32px 0;
+}
+.gasf-cf-hero__cta {
+  display: inline-block;
+  background: var(--gasf-gold-dark);
+  color: var(--gasf-cf-dark) !important;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  padding: 14px 36px;
+  border-radius: 4px;
+  text-decoration: none !important;
+  transition: background 0.2s ease, transform 0.2s ease;
+  letter-spacing: 0.5px;
+}
+.gasf-cf-hero__cta:hover {
+  background: #e8d5a3;
+  transform: translateY(-2px);
+}
+
+/* ── Mission ── */
+.gasf-cf-mission {
+  background: #f8f4e8;
+  padding: 52px 40px;
+  margin: 0 -30px;
+  border-bottom: 3px solid var(--gasf-gold-dark);
+}
+.gasf-cf-mission__inner {
+  max-width: 780px;
+  margin: 0 auto;
+  text-align: center;
+}
+.gasf-cf-mission__heading {
+  font-family: var(--font-display);
+  font-size: 32px;
+  color: var(--gasf-cf-green);
+  margin: 0 0 20px 0;
+  letter-spacing: 0.5px;
+}
+.gasf-cf-mission__heading::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: var(--gasf-gold-dark);
+  margin: 12px auto 0 auto;
+  border-radius: 2px;
+}
+.gasf-cf-mission__text {
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.75;
+  color: #2a2a2a;
+  font-style: italic;
+  margin: 0;
+}
+
+/* ── Why Give ── */
+.gasf-cf-why {
+  padding: 52px 40px;
+  background: #fff;
+  margin: 0 -30px;
+}
+.gasf-cf-why__heading {
+  font-family: var(--font-display);
+  font-size: 30px;
+  color: var(--gasf-cf-green);
+  text-align: center;
+  margin: 0 0 8px 0;
+}
+.gasf-cf-why__heading::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: var(--gasf-gold-dark);
+  margin: 10px auto 32px auto;
+  border-radius: 2px;
+}
+.gasf-cf-why__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.gasf-cf-why__card {
+  background: #f8f4e8;
+  border: 1px solid #e8d5a3;
+  border-top: 4px solid var(--gasf-cf-green);
+  border-radius: 6px;
+  padding: 28px 20px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.gasf-cf-why__card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(26,74,46,0.12);
+}
+.gasf-cf-why__icon { font-size: 32px; margin-bottom: 10px; }
+.gasf-cf-why__card-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--gasf-cf-green);
+  margin: 0 0 10px 0;
+}
+.gasf-cf-why__card-desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: #444;
+  margin: 0;
+}
+@media (max-width: 780px) {
+  .gasf-cf-why__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── Donate CTA ── */
+.gasf-cf-donate {
+  background: linear-gradient(135deg, var(--gasf-cf-dark) 0%, var(--gasf-cf-green) 100%);
+  padding: 64px 40px;
+  margin: 0 -30px;
+  text-align: center;
+}
+.gasf-cf-donate__inner {
+  max-width: 680px;
+  margin: 0 auto;
+}
+.gasf-cf-donate__heading {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3.5vw, 36px);
+  color: #f8f4e8;
+  margin: 0 0 16px 0;
+}
+.gasf-cf-donate__text {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(248,244,232,0.85);
+  margin: 0 0 32px 0;
+}
+.gasf-cf-donate__btn {
+  display: inline-block;
+  background: var(--gasf-gold-dark);
+  color: var(--gasf-cf-dark) !important;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16px;
+  padding: 16px 44px;
+  border-radius: 4px;
+  text-decoration: none !important;
+  transition: background 0.2s ease, transform 0.2s ease;
+  margin-bottom: 16px;
+}
+.gasf-cf-donate__btn:hover {
+  background: #e8d5a3;
+  transform: translateY(-2px);
+}
+.gasf-cf-donate__ein {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: rgba(248,244,232,0.5);
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+/* ── Board ── */
+.gasf-cf-board {
+  padding: 52px 40px;
+  background: #f8f4e8;
+  margin: 0 -30px;
+  text-align: center;
+}
+.gasf-cf-board__heading {
+  font-family: var(--font-display);
+  font-size: 30px;
+  color: var(--gasf-cf-green);
+  margin: 0 0 8px 0;
+}
+.gasf-cf-board__heading::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: var(--gasf-gold-dark);
+  margin: 10px auto 32px auto;
+  border-radius: 2px;
+}
+.gasf-cf-board__grid {
+  display: flex;
+  gap: 28px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.gasf-cf-board__card {
+  text-align: center;
+  width: 160px;
+}
+.gasf-cf-board__photo {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 14px auto;
+  border: 3px solid var(--gasf-gold-dark);
+  box-shadow: 0 4px 16px rgba(26,74,46,0.15);
+  background: var(--gasf-cf-green);
+}
+.gasf-cf-board__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+.gasf-cf-board__photo--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gasf-cf-board__photo--placeholder span {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--gasf-gold-dark);
+}
+.gasf-cf-board__name {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gasf-cf-green);
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+.gasf-cf-board__title {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--gasf-gold-dark);
+  margin: 0;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* ── Contact ── */
+.gasf-cf-contact {
+  background: var(--gasf-cf-green);
+  padding: 40px;
+  margin: 0 -30px;
+  text-align: center;
+}
+.gasf-cf-contact__text {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: rgba(248,244,232,0.8);
+  margin: 0 0 10px 0;
+  font-style: italic;
+}
+.gasf-cf-contact__email {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--gasf-gold-dark) !important;
+  text-decoration: none !important;
+}
+.gasf-cf-contact__email:hover { text-decoration: underline !important; }
+
+@media (max-width: 640px) {
+  .gasf-cf-hero { padding: 48px 20px; margin: -20px -20px 0 -20px; }
+  .gasf-cf-mission, .gasf-cf-why, .gasf-cf-donate,
+  .gasf-cf-board, .gasf-cf-contact { margin: 0 -20px; padding-left: 20px; padding-right: 20px; }
+}
+
+/* end section 32 — gasf-cf- Cultural Foundation page */
+
+/* ── Cultural Foundation — Sponsorship callout  ── */
+.gasf-cf-sponsor {
+  background: #f8f4e8;
+  border-top: 4px solid var(--gasf-gold-dark);
+  border-bottom: 4px solid var(--gasf-gold-dark);
+  padding: 40px;
+  margin: 0 -30px;
+}
+.gasf-cf-sponsor__inner {
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.gasf-cf-sponsor__icon {
+  font-size: 56px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.gasf-cf-sponsor__heading {
+  font-family: var(--font-display);
+  font-size: 26px;
+  color: var(--gasf-cf-green);
+  margin: 0 0 10px 0;
+}
+.gasf-cf-sponsor__text {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  color: #2a2a2a;
+  margin: 0 0 16px 0;
+}
+.gasf-cf-sponsor__cta {
+  display: inline-block;
+  background: var(--gasf-cf-green);
+  color: #f8f4e8 !important;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 10px 24px;
+  border-radius: 4px;
+  text-decoration: none !important;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.gasf-cf-sponsor__cta:hover {
+  background: var(--gasf-cf-dark);
+  transform: translateY(-2px);
+}
+@media (max-width: 600px) {
+  .gasf-cf-sponsor { padding: 32px 20px; margin: 0 -20px; }
+  .gasf-cf-sponsor__inner { flex-direction: column; text-align: center; }
+}
+
+/* ── Membership page — Volunteer callout ── */
+.gasf-mem-volunteer {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-left: 4px solid var(--gasf-gold);
+  border-radius: 10px;
+  padding: 28px 28px;
+  max-width: 960px;
+  margin: 0 auto 32px auto;
+}
+.gasf-mem-volunteer__inner {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+.gasf-mem-volunteer__icon {
+  font-size: 40px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.gasf-mem-volunteer__title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: #fff;
+  margin: 0 0 10px 0;
+}
+.gasf-mem-volunteer__text {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.82);
+  margin: 0 0 14px 0;
+}
+.gasf-mem-volunteer__link {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gasf-gold) !important;
+  text-decoration: none !important;
+}
+.gasf-mem-volunteer__link:hover { text-decoration: underline !important; }
+@media (max-width: 600px) {
+  .gasf-mem-volunteer__inner { flex-direction: column; }
+}
+
+/* ── Scholarship page — mobile improvements ── */
+@media (max-width: 780px) {
+  .gasf-sch-details { grid-template-columns: 1fr; }
+  .gasf-sch-hero__meta { flex-direction: column; align-items: center; }
+  .gasf-sch-hero__pill { width: 100%; justify-content: center; box-sizing: border-box; }
+}
+@media (max-width: 640px) {
+  .gasf-sch-submit { padding: 24px 18px; }
+  .gasf-sch-submit__email { font-size: 18px; word-break: break-all; }
+  .gasf-sch-step { padding: 18px; }
+  .gasf-sch-step__num { width: 40px; height: 40px; font-size: 18px; }
+}

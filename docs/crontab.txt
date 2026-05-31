@@ -1,0 +1,3 @@
+# GASF — trigger WordPress cron reliably every 10 minutes
+*/20 * * * * cd /home4/germanta/public_html && /usr/local/bin/php /usr/local/bin/wp cron event run --due-now --quiet 2>/dev/null
+
