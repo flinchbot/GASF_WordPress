@@ -1,0 +1,8 @@
+[31-May-2026 05:17:21 UTC] PHP Warning:  Constant WP_CRON_LOCK_TIMEOUT already defined in /home4/germanta/public_html/wp-config.php on line 97
+[31-May-2026 05:17:21 UTC] PHP Warning:  Constant AUTOSAVE_INTERVAL already defined in /home4/germanta/public_html/wp-config.php on line 98
+[31-May-2026 05:17:21 UTC] PHP Warning:  Constant WP_POST_REVISIONS already defined in /home4/germanta/public_html/wp-config.php on line 99
+[31-May-2026 05:17:21 UTC] PHP Warning:  Constant EMPTY_TRASH_DAYS already defined in /home4/germanta/public_html/wp-config.php on line 100
+[31-May-2026 05:17:22 UTC] PHP Warning:  Constant WP_CRON_LOCK_TIMEOUT already defined in /home4/germanta/public_html/wp-config.php on line 97
+[31-May-2026 05:17:22 UTC] PHP Warning:  Constant AUTOSAVE_INTERVAL already defined in /home4/germanta/public_html/wp-config.php on line 98
+[31-May-2026 05:17:22 UTC] PHP Warning:  Constant WP_POST_REVISIONS already defined in /home4/germanta/public_html/wp-config.php on line 99
+[31-May-2026 05:17:22 UTC] PHP Warning:  Constant EMPTY_TRASH_DAYS already defined in /home4/germanta/public_html/wp-config.php on line 100

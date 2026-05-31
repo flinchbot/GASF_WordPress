@@ -117,7 +117,7 @@ SHADOW SCALE (--shadow-*):
   --of-navy: #002b5c;             /* Deep navy — used for banner text */
   --of-link-blue: #0078D4;        /* Image widget base border color */
   --of-lightblue: #6fcbf2;        /* Border-image accent stripe */
-  --of-teal: #339999;             /* Site primary color — used in .block component */
+  --of-teal: #0F6E56;             /* Palette teal-green (Midnight Hopfen) — image borders, MEC accents */
 
   /* ── Palette: Warm / Cream / Wheat ── */
   --of-cream-0: #fffaf0;          /* Ivory — used for h2 text */
@@ -648,8 +648,8 @@ body.single-mec-events {
   transition: background 0.3s ease;
 }
 .mec-wrap .mec-booking-button:hover {
-  background-color: #87cefa;
-  color: #000000;
+  background-color: var(--of-teal);
+  color: #ffffff;
 }
 
 /* ==========================================================
@@ -1505,7 +1505,7 @@ div#n2-ss-6 {
 }
 
 /* ── 21c) Sidebar / .block navigation component ─────────────
-   Teal-themed navigation block. Shimmer effect uses CSS
+   Gold-themed navigation block (Midnight Hopfen). Shimmer effect uses CSS
    transition on left, NOT @keyframes animation.
 ───────────────────────────────────────────────────────── */
 .sidebar {
@@ -1516,18 +1516,18 @@ div#n2-ss-6 {
 }
 
 .block {
-  background: radial-gradient(circle at 30% 20%, #339999, #236c6c);
+  background: var(--gasf-gold);
   border: 2px solid transparent;
   border-radius: 16px;
   padding: 32px 20px;
   text-align: center;
-  color: #ffffff;
+  color: var(--gasf-dark-bg);
   font-size: 1.6em;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
   text-decoration: none;
-  box-shadow: 0 8px 16px rgba(30, 144, 255, 0.3);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease-in-out;
   position: relative;
   overflow: hidden;
@@ -1540,7 +1540,7 @@ div#n2-ss-6 {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to right, transparent, #87cefa55, transparent);
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.35), transparent);
   transform: skewX(-20deg);
   transition: left 0.6s ease;
 }
@@ -1549,8 +1549,9 @@ div#n2-ss-6 {
 }
 
 .block:hover {
-  border-color: #87cefa;
-  color: #e6ffff;
+  background: var(--gasf-gold-dark);
+  border-color: var(--gasf-gold-dark);
+  color: var(--gasf-hero-text);
   transform: scale(1.04);
 }
 
@@ -3232,7 +3233,7 @@ span.venue-tab-row,
    25) Homepage identity strip — .gasf-home-identity
    ========================================================== */
 .gasf-home-identity {
-  background-color: #000000;
+  background: var(--gasf-hero-gradient);
   padding: 48px 40px;
   position: relative;
   overflow: hidden;
@@ -3247,7 +3248,7 @@ span.venue-tab-row,
   font-size: 13px;
   letter-spacing: 5px;
   text-transform: uppercase;
-  color: #339999;
+  color: var(--gasf-gold);
   margin: 0 0 16px 0;
 }
 .gasf-home-identity__headline {
@@ -3276,8 +3277,8 @@ span.venue-tab-row,
 .gasf-home-identity__cta {
   display: inline-block;
   margin-top: 24px;
-  background: radial-gradient(circle at 30% 20%, #339999, #236c6c);
-  color: #ffffff;
+  background: var(--gasf-gold);
+  color: var(--gasf-dark-bg);
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 1.2em;
@@ -3290,8 +3291,8 @@ span.venue-tab-row,
   transition: all 0.3s ease-in-out;
 }
 .gasf-home-identity__cta:hover {
-  border-color: #87cefa;
-  color: #e6ffff;
+  background: var(--gasf-gold-dark);
+  color: var(--gasf-hero-text);
   transform: scale(1.04);
 }
 @media (max-width: 640px) {
