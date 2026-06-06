@@ -219,3 +219,43 @@ Total: 41 pages
 Exporting crontab...
   crontab.txt
 Committing to GitHub...
+[main d3f2616] Backup: 2026-06-05 02:00:01
+ 2 files changed, 93 insertions(+)
+ create mode 100644 pages/11514_dinner-night.html
+To github.com:flinchbot/GASF_WordPress.git
+   b1d2239..d3f2616  main -> main
+Pushed to GitHub successfully.
+=== Done ===
+=== GASF WordPress Backup — 2026-06-06 02:00:01 ===
+Exporting snippets...
+  Snippet #1: Make upload filenames lowercase
+  Snippet #2: Disable admin bar
+  Snippet #3: Allow smilies
+  Snippet #4: Current year
+  Snippet #5: Update Yoast/MEC missing Schema
+  Snippet #6: Yoast SEO access for Claude
+  Snippet #7: Footer CSS Override
+  Snippet #8: Forces WordPress/MEC to use our PHP template
+  Snippet #9: MEC Single Event PHP
+  Snippet #10: Single MEC Events
+  Snippet #11: Block REST API user enumeration
+  Snippet #12: Welton Brewing Status Blurb
+  Snippet #13: Bundesliga Table Shortcode
+  Snippet #14: Bayern Scorers Shortcode
+  Snippet #15: Bundesliga Top Scorers Shortcode
+  Snippet #16: MEC Upcoming Dates Shortcode
+  Snippet #17: MEC Importer Cron Fix
+  Snippet #18: MEC Facebook Recurring Event Expander
+  Snippet #19: MEC Facebook Window Response Filter
+  Snippet #20: MEC Importer — Force Facebook Page Defaults
+  Snippet #21: MEC Facebook Import — Dedup Guard
+Total: 21 snippets
+Exporting CSS...
+  so-css-hoot-du-premium.css
+Exporting theme files...
+  single-mec-events.php
+Exporting pages...
+Total: 41 pages
+Exporting crontab...
+  crontab.txt
+Committing to GitHub...
