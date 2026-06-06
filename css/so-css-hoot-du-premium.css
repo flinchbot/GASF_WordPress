@@ -4672,3 +4672,31 @@ span.venue-tab-row,
   .gasf-sch-step { padding: 18px; }
   .gasf-sch-step__num { width: 40px; height: 40px; font-size: 18px; }
 }
+/* ── MEC calendar: today cell — light yellow, readable (gasf-today-highlight) ── */
+.mec-calendar .mec-calendar-day.mec-selected-day {
+  background-color: #fff3bf !important;
+  background-image: none !important;
+  color: #1a1a2e !important;
+}
+.mec-calendar .mec-calendar-day.mec-selected-day .mec-color,
+.mec-calendar .mec-calendar-day.mec-selected-day .mec-event-title,
+.mec-calendar .mec-calendar-day.mec-selected-day .mec-event-title a,
+.mec-calendar .mec-calendar-day.mec-selected-day a {
+  color: #1a1a2e !important;
+}
+
+/* ── MEC calendar: day-with-event hover — light red, readable (gasf-day-hover) ── */
+.mec-calendar .mec-calendar-row dt.mec-has-event:hover,
+.mec-wrap.colorskin-custom .mec-calendar .mec-calendar-row dt.mec-has-event:hover,
+.mec-wrap.colorskin-custom .mec-calendar .mec-selected-day:hover,
+.mec-calendar .mec-calendar-row dt.mec-has-event.mec-selected-day:hover {
+  background-color: #ffd6d6 !important;
+  background-image: none !important;
+  color: #1a1a2e !important;
+}
+.mec-calendar .mec-calendar-row dt.mec-has-event:hover .mec-color,
+.mec-calendar .mec-calendar-row dt.mec-has-event:hover .mec-event-title,
+.mec-calendar .mec-calendar-row dt.mec-has-event:hover .mec-event-title a,
+.mec-calendar .mec-calendar-row dt.mec-has-event:hover a {
+  color: #1a1a2e !important;
+}
