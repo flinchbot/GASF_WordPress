@@ -4672,31 +4672,53 @@ span.venue-tab-row,
   .gasf-sch-step { padding: 18px; }
   .gasf-sch-step__num { width: 40px; height: 40px; font-size: 18px; }
 }
-/* ── MEC calendar: today cell — light yellow, readable (gasf-today-highlight) ── */
-.mec-calendar .mec-calendar-day.mec-selected-day {
+/* ── MEC calendar: today + day hover (gasf) ──────────────────
+   Selectors mirror MEC frontend.css exactly so specificity matches,
+   then win with !important:
+     today  -> .mec-calendar .mec-selected-day(:hover)  { #40d9f1 }
+     allday -> .mec-calendar .mec-calendar-row dt:hover  { #f4f4f4 }
+     events -> .mec-calendar .mec-calendar-row dt.mec-has-event:hover { #40d9f1 }
+   ─────────────────────────────────────────────────────────── */
+
+/* Today cell — light yellow at rest AND on hover (stays yellow) */
+.mec-calendar .mec-selected-day,
+.mec-calendar .mec-selected-day:hover,
+.mec-calendar .mec-calendar-day.mec-selected-day,
+.mec-calendar .mec-calendar-day.mec-selected-day:hover,
+.mec-calendar .mec-calendar-row dt.mec-has-event.mec-selected-day:hover {
   background-color: #fff3bf !important;
   background-image: none !important;
   color: #1a1a2e !important;
 }
+.mec-calendar .mec-selected-day a,
+.mec-calendar .mec-selected-day:hover a,
 .mec-calendar .mec-calendar-day.mec-selected-day .mec-color,
 .mec-calendar .mec-calendar-day.mec-selected-day .mec-event-title,
-.mec-calendar .mec-calendar-day.mec-selected-day .mec-event-title a,
-.mec-calendar .mec-calendar-day.mec-selected-day a {
+.mec-calendar .mec-calendar-day.mec-selected-day .mec-event-title a {
   color: #1a1a2e !important;
 }
 
-/* ── MEC calendar: day-with-event hover — light red, readable (gasf-day-hover) ── */
-.mec-calendar .mec-calendar-row dt.mec-has-event:hover,
-.mec-wrap.colorskin-custom .mec-calendar .mec-calendar-row dt.mec-has-event:hover,
-.mec-wrap.colorskin-custom .mec-calendar .mec-selected-day:hover,
-.mec-calendar .mec-calendar-row dt.mec-has-event.mec-selected-day:hover {
+/* All other day cells (not today) — light red on hover */
+.mec-calendar .mec-calendar-row dt:hover,
+.mec-calendar .mec-calendar-row dt.mec-has-event:hover {
   background-color: #ffd6d6 !important;
   background-image: none !important;
   color: #1a1a2e !important;
 }
-.mec-calendar .mec-calendar-row dt.mec-has-event:hover .mec-color,
-.mec-calendar .mec-calendar-row dt.mec-has-event:hover .mec-event-title,
-.mec-calendar .mec-calendar-row dt.mec-has-event:hover .mec-event-title a,
-.mec-calendar .mec-calendar-row dt.mec-has-event:hover a {
+.mec-calendar .mec-calendar-row dt:hover a,
+.mec-calendar .mec-calendar-row dt.mec-has-event:hover a,
+.mec-calendar .mec-calendar-row dt:hover .mec-event-title,
+.mec-calendar .mec-calendar-row dt:hover .mec-event-title a {
   color: #1a1a2e !important;
+}
+
+/* Re-assert today over the generic dt:hover rule above (today is also a dt) */
+.mec-calendar .mec-calendar-row dt.mec-selected-day:hover {
+  background-color: #fff3bf !important;
+  color: #1a1a2e !important;
+}
+
+/* ── MEC calendar: month/year heading — homepage Calendar-button gold (gasf-month-heading) ── */
+.mec-calendar .mec-calendar-header h2 {
+  color: var(--gasf-gold) !important;
 }
