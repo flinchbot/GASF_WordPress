@@ -1,7 +1,7 @@
 <?php
 /**
  * Snippet #17: MEC Importer Cron Fix
- * Scope: global | Active: Yes | Priority: 1
+ * Scope: global | Active: No | Priority: 1
  * Patches the MEC Advanced Importer cron bug where setup_sync_cron() clears and re-registers on every init, preventing the hook from ever firing. Replaces MEC behavior with a safe register-once pattern.
  */
 

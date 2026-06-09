@@ -1,7 +1,7 @@
 <?php
 /**
  * Snippet #20: MEC Importer — Force Facebook Page Defaults
- * Scope: global | Active: Yes | Priority: 1
+ * Scope: global | Active: No | Priority: 1
  * Server-side: forces importType=page and importTypeVal=GermanTampa on the FB import AJAX action; cosmetic JS reflects locked values. Replaces the old JS-disable approach that broke importType.
  */
 

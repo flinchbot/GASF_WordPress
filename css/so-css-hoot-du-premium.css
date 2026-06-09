@@ -4722,3 +4722,97 @@ span.venue-tab-row,
 .mec-calendar .mec-calendar-header h2 {
   color: var(--gasf-gold) !important;
 }
+
+/* ── Calendar of Events (page 8647): print button + print-only calendar (gasf-print-calendar) ── */
+.gasf-print-calendar-wrap { text-align: center; margin: 28px 0 8px 0; }
+.gasf-print-calendar-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--gasf-gold, #EF9F27); color: var(--gasf-dark-bg, #1a1a2e);
+  font-family: var(--font-body, sans-serif); font-weight: 700; font-size: 14px;
+  padding: 9px 20px; border: none; border-radius: 40px; cursor: pointer;
+  text-decoration: none; transition: background 0.2s ease;
+}
+.gasf-print-calendar-btn:hover { background: var(--gasf-gold-dark, #BA7517); color: #fff; }
+
+@media print {
+  @page { size: landscape; margin: 0.4in; }
+
+  /* Hide ALL site chrome on the calendar page (correct footer ids: post-footer / sub-footer) */
+  body.page-id-8647 #header,
+  body.page-id-8647 .site-header,
+  body.page-id-8647 #sidebar-header-sidebar,
+  body.page-id-8647 .sidebar,
+  body.page-id-8647 #post-footer,
+  body.page-id-8647 #sub-footer,
+  body.page-id-8647 .post-footer,
+  body.page-id-8647 .sub-footer,
+  body.page-id-8647 .footer-contact,
+  body.page-id-8647 .gasf-print-calendar-wrap,
+  body.page-id-8647 .gasf-print-calendar-btn,
+  body.page-id-8647 .mec-totalcal-box,
+  body.page-id-8647 .mec-calendar-side .mec-next-month,
+  body.page-id-8647 .mec-calendar-side .mec-previous-month {
+    display: none !important;
+  }
+
+  /* Full-width content for print */
+  body.page-id-8647 #main,
+  body.page-id-8647 #content,
+  body.page-id-8647 .entry-content,
+  body.page-id-8647 .hgrid,
+  body.page-id-8647 .hgrid-span-12,
+  body.page-id-8647 .main-content-grid,
+  body.page-id-8647 article.entry,
+  body.page-id-8647 .mec-wrap,
+  body.page-id-8647 #mec_skin_mec1,
+  body.page-id-8647 .container,
+  body.page-id-8647 .row {
+    width: 100% !important; max-width: 100% !important;
+    margin: 0 !important; padding: 0 !important; float: none !important;
+  }
+
+  /* White cells, black text */
+  body.page-id-8647 .mec-calendar,
+  body.page-id-8647 .mec-calendar .mec-calendar-day {
+    background: #fff !important; background-color: #fff !important;
+    background-image: none !important; color: #000 !important; box-shadow: none !important;
+  }
+
+  /* NO today highlight in print - selector at least as specific as the on-screen rule
+     (.mec-calendar .mec-calendar-day.mec-selected-day), plus body.page-id prefix to win */
+  body.page-id-8647 .mec-calendar .mec-calendar-day.mec-selected-day,
+  body.page-id-8647 .mec-calendar .mec-calendar-row dt.mec-has-event.mec-selected-day {
+    background: #fff !important; background-color: #fff !important;
+    background-image: none !important; color: #000 !important;
+  }
+  body.page-id-8647 .mec-calendar .mec-calendar-day.mec-selected-day .mec-color,
+  body.page-id-8647 .mec-calendar .mec-calendar-day.mec-selected-day .mec-event-title,
+  body.page-id-8647 .mec-calendar .mec-event-title,
+  body.page-id-8647 .mec-calendar .mec-event-title a,
+  body.page-id-8647 .mec-calendar .mec-color { color: #000 !important; }
+
+  /* Fit calendar to landscape width */
+  body.page-id-8647 .mec-calendar { width: 100% !important; font-size: 11px !important; }
+  body.page-id-8647 .mec-calendar .mec-calendar-table { width: 100% !important; table-layout: fixed !important; }
+  body.page-id-8647 .mec-calendar .mec-calendar-day { padding: 2px !important; }
+  body.page-id-8647 .mec-calendar .mec-calendar-row { page-break-inside: avoid; }
+
+  /* gasf-print-fill-height: stretch dl/dt calendar rows to fill the landscape page.
+     MEC grid = display:table dl + display:table-cell dt (NOT real table tags).
+     Override dt height AND line-height (line-height was capping cell height). */
+  body.page-id-8647 .mec-calendar .mec-calendar-table { height: auto !important; }
+  body.page-id-8647 .mec-calendar dl.mec-calendar-row {
+    display: table !important; width: 100% !important; table-layout: fixed !important;
+    height: 1.18in !important;
+  }
+  body.page-id-8647 .mec-calendar dl.mec-calendar-row dt.mec-calendar-day {
+    display: table-cell !important;
+    height: 1.18in !important;
+    line-height: 1.2 !important;
+    vertical-align: top !important;
+    padding: 4px 5px !important;
+    border: 1px solid #ccc !important;
+    border-radius: 0 !important;
+  }
+  body.page-id-8647 .mec-calendar dt.mec-calendar-day { font-size: 12px !important; }
+}

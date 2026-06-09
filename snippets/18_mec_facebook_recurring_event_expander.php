@@ -1,7 +1,7 @@
 <?php
 /**
  * Snippet #18: MEC Facebook Recurring Event Expander
- * Scope: global | Active: Yes | Priority: 5
+ * Scope: global | Active: No | Priority: 5
  * Intercepts MEC Facebook imports and expands recurring events (event_times) into individual MEC events. MEC natively ignores event_times. Plugin-update-safe.
  */
 

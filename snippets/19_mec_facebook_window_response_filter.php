@@ -1,7 +1,7 @@
 <?php
 /**
  * Snippet #19: MEC Facebook Window Response Filter
- * Scope: global | Active: Yes | Priority: 10
+ * Scope: global | Active: No | Priority: 10
  * Strips out-of-window events from the Graph API response before the importer parses them. Date-based, inclusive. Manual syncs only. No trashing.
  */
 
