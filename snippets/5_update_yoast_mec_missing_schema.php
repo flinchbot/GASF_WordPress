@@ -1,7 +1,7 @@
 <?php
 /**
  * Snippet #5: Update Yoast/MEC missing Schema
- * Scope: global | Active: No | Priority: 10
+ * Scope: global | Active: Yes | Priority: 10
  * 
  */
 
