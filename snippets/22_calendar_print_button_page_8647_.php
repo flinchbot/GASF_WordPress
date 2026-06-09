@@ -33,7 +33,7 @@ add_filter( 'the_content', function( $content ) {
             . '<a class="gasf-print-calendar-btn" href="' . esc_url( '/wp-content/uploads/calendar.pdf' ) . '" target="_blank" rel="noopener">'
             . '<span aria-hidden="true">&#128424;</span> Print Calendar'
             . '</a>'
-            . '<a class="gasf-print-calendar-btn gasf-subscribe-calendar-btn" style="margin-left:12px" href="' . esc_url( 'https://germantampabay.com/?mec-ical-feed=1&nc=1781030914' ) . '" target="_blank" rel="noopener">'
+            . '<a class="gasf-print-calendar-btn gasf-subscribe-calendar-btn" style="margin-left:12px" href="' . esc_url( 'webcal://germantampabay.com/?mec-ical-feed=1&nc=1781030914' ) . '" target="_blank" rel="noopener">'
             . '<span aria-hidden="true">&#128197;</span> Subscribe'
             . '</a></div>';
 
