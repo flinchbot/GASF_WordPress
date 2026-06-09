@@ -4816,3 +4816,24 @@ span.venue-tab-row,
   }
   body.page-id-8647 .mec-calendar dt.mec-calendar-day { font-size: 12px !important; }
 }
+
+/* ── World Cup schedule (page 17983): clickable rows + gold hover (gasf-wc-row) ── */
+.gasf-wc-schedule tbody tr.gasf-wc-row { transition: background 0.15s ease; cursor: pointer; }
+.gasf-wc-schedule tbody tr.gasf-wc-row:hover { background: var(--gasf-gold, #EF9F27) !important; }
+.gasf-wc-schedule tbody tr.gasf-wc-row:hover a { color: var(--gasf-dark-bg, #1a1a2e) !important; font-weight: 700; }
+
+/* ── World Cup nav item: gold/blue pop when NOT the current page (gasf-wc-navpop) ── */
+.menu-item-17985:not(.current-menu-item) > a {
+  background: var(--gasf-gold, #EF9F27) !important;
+  color: var(--gasf-dark-bg, #1a1a2e) !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  padding-left: 14px !important;
+  padding-right: 14px !important;
+  margin: 0 4px !important;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.menu-item-17985:not(.current-menu-item) > a:hover {
+  background: var(--gasf-hero-navy, #1a1a2e) !important;
+  color: var(--gasf-gold, #EF9F27) !important;
+}
