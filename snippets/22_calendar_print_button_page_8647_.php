@@ -32,6 +32,9 @@ add_filter( 'the_content', function( $content ) {
     $button = '<div class="gasf-print-calendar-wrap">'
             . '<a class="gasf-print-calendar-btn" href="' . esc_url( '/wp-content/uploads/calendar.pdf' ) . '" target="_blank" rel="noopener">'
             . '<span aria-hidden="true">&#128424;</span> Print Calendar'
+            . '</a>'
+            . '<a class="gasf-print-calendar-btn gasf-subscribe-calendar-btn" style="margin-left:12px" href="' . esc_url( 'https://germantampabay.com/?mec-ical-feed=1&nc=1781030914' ) . '" target="_blank" rel="noopener">'
+            . '<span aria-hidden="true">&#128197;</span> Subscribe'
             . '</a></div>';
 
     // NOWDOC: literal JS, no PHP interpolation. MEC marks the visible month with
@@ -47,7 +50,7 @@ add_filter( 'the_content', function( $content ) {
     return (m&&m.length===6)?m.slice(0,4)+"-"+m.slice(4,6):null;
   }
   function apply(){
-    var a=document.querySelector(".gasf-print-calendar-btn");
+    var a=document.querySelector(".gasf-print-calendar-btn:not(.gasf-subscribe-calendar-btn)");
     if(!a)return;
     var m=ym();
     // Bluehost serves these PDFs with a 24h cache; bust it hourly (the render
