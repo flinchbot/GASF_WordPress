@@ -955,7 +955,7 @@ body.single-mec-events .main-container {
    This is belt-and-suspenders — if the PHP file is missing,
    MEC renders its own template. These rules minimise the damage.
 ───────────────────────────────────────────────────────────────── */
-body.single-mec-events .mec-wrap .mec-single-event-bar,
+/* NOTE (2026-06-14): .mec-single-event-bar removed from this hide list — it holds the date/time, and with the custom gasf template wiped by a theme reinstall it was the ONLY date/time on the page. Countdown + clock stay hidden. */
 body.single-mec-events .mec-wrap .mec-events-meta-group-countdown,
 body.single-mec-events .mec-wrap .clock {
   display: none !important;
