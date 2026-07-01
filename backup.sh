@@ -47,15 +47,15 @@ echo "Exporting crontab..."
 crontab -l > "$REPO/docs/crontab.txt" 2>/dev/null || echo "(empty)" > "$REPO/docs/crontab.txt"
 echo "  crontab.txt"
 
-# ── 6. Git commit and push (rebase first so a behind checkout self-heals) ──
+# ── 6. Git commit and push (commit → rebase → push, self-heals a behind checkout) ──
 echo "Committing to GitHub..."
 cd "$REPO" || exit 1
-git pull --rebase origin main 2>&1 | tail -3 || true
 git add -A
 if git diff --cached --quiet; then
     echo "Nothing changed — no commit needed."
 else
     git commit -m "Backup: $DATE"
+    git pull --rebase origin main 2>&1 | tail -3 || true
     if git push origin main; then
         echo "Pushed to GitHub successfully."
     else
